@@ -7,5 +7,19 @@
 /public/bundles/
 /var/
 /vendor/
+
 ###< symfony/framework-bundle ###
 .env
+
+# PHP CS Fixer
+/.php-cs-fixer.cache
+
+# Composer
+/composer.lock
+
+# Others
+/.phpunit.result.cache
+/.idea/
+
+# IDEs
+/.vscode/
