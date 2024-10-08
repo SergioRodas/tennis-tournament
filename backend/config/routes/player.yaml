@@ -1,0 +1,17 @@
+create_player:
+    path: /api/player/create
+    controller: App\Api\Player\Infrastructure\Controller\PlayerController::createPlayer
+    methods: [POST]
+
+get_player:
+    path: /api/player/{id}
+    controller: App\Api\Player\Infrastructure\Controller\PlayerController::getPlayer
+    methods: [GET]
+    requirements:
+        id: '\d+'
+
+list_players:
+    path: /api/player/list
+    controller: App\Api\Player\Infrastructure\Controller\PlayerController::listPlayers
+    methods: [GET]
+
