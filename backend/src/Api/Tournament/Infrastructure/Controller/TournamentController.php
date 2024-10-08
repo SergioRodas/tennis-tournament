@@ -43,20 +43,7 @@ class TournamentController extends AbstractController
             throw new ApiException('Invalid data', Response::HTTP_BAD_REQUEST);
         }
 
-        $dto = new CreateTournamentRequestDto(
-            strtoupper($data['gender'])
-        );
-
-        $errors = $this->validator->validate($dto);
-        if (count($errors) > 0) {
-            $errorMessages = [];
-            foreach ($errors as $error) {
-                $errorMessages[] = $error->getMessage();
-            }
-            throw new ApiException(json_encode(['errors' => $errorMessages]), Response::HTTP_BAD_REQUEST);
-        }
-
-        $tournament = $this->createTournamentUseCase->execute($dto->gender);
+        $tournament = $this->createTournamentUseCase->execute($data);
 
         return new JsonResponse([
             'message' => 'Tournament created successfully',
@@ -92,6 +79,6 @@ class TournamentController extends AbstractController
         $limit = $request->query->getInt('limit', 20);
         $tournaments = $this->listTournamentsUseCase->execute([], $offset, $limit);
 
-        return new JsonResponse(array_map(fn ($tournament) => $tournament->toArray(), $tournaments));
+        return new JsonResponse(array_map(fn($tournament) => $tournament->toArray(), $tournaments));
     }
 }

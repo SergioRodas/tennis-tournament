@@ -5,7 +5,6 @@ namespace App\Api\Player\Infrastructure\Controller;
 use App\Api\Player\Application\UseCases\ListPlayersUseCase;
 use App\Api\Player\Application\UseCases\CreatePlayerUseCase;
 use App\Api\Player\Application\UseCases\GetPlayerUseCase;
-use App\Api\Player\Application\Dto\CreatePlayerRequestDto;
 use App\Api\Player\Application\Dto\PlayerFilterRequestDto;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -41,31 +40,7 @@ class PlayerController extends AbstractController
             throw new ApiException('Invalid data', Response::HTTP_BAD_REQUEST);
         }
 
-        $dto = new CreatePlayerRequestDto();
-        $dto->name = $data['name'] ?? null;
-        $dto->skillLevel = $data['skillLevel'] ?? null;
-        $dto->gender = strtoupper($data['gender']) ?? null;
-        $dto->strength = $data['strength'] ?? null;
-        $dto->speed = $data['speed'] ?? null;
-        $dto->reactionTime = $data['reactionTime'] ?? null;
-
-        $errors = $this->validator->validate($dto);
-        if (count($errors) > 0) {
-            $errorMessages = [];
-            foreach ($errors as $error) {
-                $errorMessages[] = $error->getMessage();
-            }
-            throw new ApiException(json_encode(['errors' => $errorMessages]), Response::HTTP_BAD_REQUEST);
-        }
-
-        $this->createPlayerUseCase->execute(
-            $dto->name,
-            $dto->skillLevel,
-            $dto->gender,
-            $dto->strength,
-            $dto->speed,
-            $dto->reactionTime
-        );
+        $this->createPlayerUseCase->execute($data);
 
         return new JsonResponse(['message' => 'Player created'], Response::HTTP_CREATED);
     }
@@ -83,27 +58,9 @@ class PlayerController extends AbstractController
 
     public function listPlayers(Request $request): JsonResponse
     {
-        $filterRequest = new PlayerFilterRequestDto();
-        $filterRequest->page = $request->query->getInt('page', 1);
-        $filterRequest->limit = $request->query->getInt('limit', 20);
-        $filterRequest->skill = $request->query->get('skill');
-        $filterRequest->gender = $request->query->get('gender');
+        $queryParams = $request->query->all();
 
-        $errors = $this->validator->validate($filterRequest);
-        if (count($errors) > 0) {
-            $errorMessages = [];
-            foreach ($errors as $error) {
-                $errorMessages[] = $error->getMessage();
-            }
-            throw new ApiException(json_encode(['errors' => $errorMessages]), Response::HTTP_BAD_REQUEST);
-        }
-
-        $filters = [
-            'skill' => $filterRequest->skill,
-            'gender' => strtoupper($filterRequest->gender),
-        ];
-
-        $players = $this->listPlayersUseCase->execute($filters, $filterRequest->page, $filterRequest->limit);
+        $players = $this->listPlayersUseCase->execute($queryParams);
 
         $playersArray = array_map(function ($player) {
             return $player->toArray();

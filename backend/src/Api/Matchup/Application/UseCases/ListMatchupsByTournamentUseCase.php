@@ -15,14 +15,28 @@ class ListMatchupsByTournamentUseCase
         $this->matchupRepository = $matchupRepository;
     }
 
-    public function execute(int $tournamentId, ?bool $finished = null): array
+    public function execute(array $params): array
     {
+        $tournamentId = $params['tournament_id'] ?? null;
+        $finished = $params['finished'] ?? null;
+
+        if ($tournamentId === null) {
+            throw new ApiException('Tournament ID is required', Response::HTTP_BAD_REQUEST);
+        }
+
+        if ($finished !== null) {
+            $finished = $finished === 'true' ? true : ($finished === 'false' ? false : null);
+        }
+
         $matchups = $this->matchupRepository->findByTournamentId($tournamentId, $finished);
 
         if (empty($matchups)) {
             throw new ApiException('No matchups found for this tournament', Response::HTTP_NOT_FOUND);
         }
 
-        return $matchups;
+        return [
+            'tournament_id' => $tournamentId,
+            'matchups' => $matchups
+        ];
     }
 }

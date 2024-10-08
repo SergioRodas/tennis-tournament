@@ -44,22 +44,7 @@ class MatchupController extends AbstractController
             throw new ApiException('Invalid data', Response::HTTP_BAD_REQUEST);
         }
 
-        $dto = new CreateMatchupRequestDto(
-            (int) $data['player1_id'],
-            (int) $data['player2_id'],
-            (int) $data['tournament_id']
-        );
-
-        $errors = $this->validator->validate($dto);
-        if (count($errors) > 0) {
-            $errorMessages = [];
-            foreach ($errors as $error) {
-                $errorMessages[] = $error->getMessage();
-            }
-            throw new ApiException(json_encode(['errors' => $errorMessages]), Response::HTTP_BAD_REQUEST);
-        }
-
-        $this->createMatchupUseCase->execute($dto->player1Id, $dto->player2Id, $dto->tournamentId);
+        $this->createMatchupUseCase->execute($data);
 
         return new JsonResponse(['message' => 'Matchup created successfully'], Response::HTTP_CREATED);
     }
@@ -73,18 +58,14 @@ class MatchupController extends AbstractController
 
     public function listByTournament(int $tournamentId, Request $request): JsonResponse
     {
-        $finished = $request->query->get('finished');
-        $matchups = $this->listMatchupsByTournamentUseCase->execute(
-            $tournamentId,
-            'true' === $finished ? true : ('false' === $finished ? false : null)
-        );
-
-        $response = [
+        $params = [
             'tournament_id' => $tournamentId,
-            'matchups' => array_map(fn($matchup) => $matchup->toArray(), $matchups)
+            'finished' => $request->query->get('finished')
         ];
 
-        return new JsonResponse($response);
+        $result = $this->listMatchupsByTournamentUseCase->execute($params);
+
+        return new JsonResponse($result);
     }
 
     public function updateWinner(Request $request, int $id): JsonResponse
