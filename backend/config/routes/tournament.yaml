@@ -1,0 +1,22 @@
+create_tournament:
+    path: /api/tournament/create
+    controller: App\Api\Tournament\Infrastructure\Controller\TournamentController::createTournament
+    methods: [POST]
+
+get_tournament:
+    path: /api/tournament/{id}
+    controller: App\Api\Tournament\Infrastructure\Controller\TournamentController::getTournament
+    methods: [GET]
+    requirements:
+        id: '\d+'
+
+simulate_tournament:
+    path: /api/tournament/simulate
+    controller: App\Api\Tournament\Infrastructure\Controller\TournamentController::simulateTournament
+    methods: [POST]
+
+list_tournaments:
+    path: /api/tournament/list
+    controller: App\Api\Tournament\Infrastructure\Controller\TournamentController::listTournaments
+    methods: [GET]
+
