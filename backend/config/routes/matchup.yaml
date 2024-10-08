@@ -1,0 +1,23 @@
+create_matchup:
+    path: /api/matchup/create
+    controller: App\Api\Matchup\Infrastructure\Controller\MatchupController::createMatchup
+    methods: [POST]
+
+get_matchup:
+    path: /api/matchup/{id}
+    controller: App\Api\Matchup\Infrastructure\Controller\MatchupController::getMatchup
+    methods: [GET]
+    requirements:
+        id: '\d+'
+
+update_matchup_winner:
+    path: /api/matchup/update/{id}/winner
+    controller: App\Api\Matchup\Infrastructure\Controller\MatchupController::updateWinner
+    methods: [PUT]
+
+matchups_list_by_tournament:
+    path: /api/matchup/list/{tournamentId}
+    controller: App\Api\Matchup\Infrastructure\Controller\MatchupController::listByTournament
+    methods: GET
+    requirements:
+        tournamentId: '\d+'
