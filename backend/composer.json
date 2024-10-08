@@ -9,14 +9,18 @@
         "php": ">=8.2",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "doctrine/annotations": "^2.0",
+        "doctrine/doctrine-bundle": "^2.13",
+        "doctrine/doctrine-migrations-bundle": "^3.3",
+        "doctrine/orm": "*",
         "symfony/console": "7.1.*",
         "symfony/dotenv": "7.1.*",
         "symfony/flex": "^2",
         "symfony/framework-bundle": "7.1.*",
+        "symfony/monolog-bundle": "^3.10",
         "symfony/runtime": "7.1.*",
+        "symfony/validator": "7.1.*",
         "symfony/yaml": "7.1.*"
-    },
-    "require-dev": {
     },
     "config": {
         "allow-plugins": {
@@ -29,7 +33,7 @@
     "autoload": {
         "psr-4": {
             "App\\": "src/",
-            "App\\Api\\Match\\": "src/api/match/",
+            "App\\Api\\Matchup\\": "src/api/matchup/",
             "App\\Api\\Player\\": "src/api/player/",
             "App\\Api\\Tournament\\": "src/api/tournament/",
             "App\\Shared\\": "src/shared/"
@@ -70,5 +74,9 @@
             "allow-contrib": false,
             "require": "7.1.*"
         }
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.64",
+        "phpstan/phpstan": "^1.12"
     }
 }
