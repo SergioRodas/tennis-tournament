@@ -38,7 +38,7 @@ class ListPlayersUseCase
 
         $filters = [
             'skill' => $dto->skill,
-            'gender' => strtoupper($dto->gender),
+            'gender' => null !== $dto->gender ? strtoupper($dto->gender) : null,
         ];
 
         $players = $this->playerRepository->findAllWithFilters($filters, $dto->page, $dto->limit);
