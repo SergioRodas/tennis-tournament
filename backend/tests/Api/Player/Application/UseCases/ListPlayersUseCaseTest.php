@@ -9,18 +9,19 @@ use App\Shared\Domain\Exception\ApiException;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Validator\Validation;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class ListPlayersUseCaseTest extends TestCase
 {
+    /** @var PlayerRepository&MockObject */
     private $repository;
+
     private ValidatorInterface $validator;
     private ListPlayersUseCase $useCase;
 
     protected function setUp(): void
     {
-        $this->repository = $this->getMockBuilder(PlayerRepository::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->repository = $this->createMock(PlayerRepository::class);
         $this->validator = Validation::createValidator();
         $this->useCase = new ListPlayersUseCase($this->repository, $this->validator);
     }
