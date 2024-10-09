@@ -48,11 +48,11 @@ class CreatePlayerRequestDto
     public ?int $speed = null;
 
     /**
-     * @Assert\Type(type="integer")
+     * @Assert\Type(type="float", message="Reaction time must be a float.")
      *
-     * @Assert\PositiveOrZero
+     * @Assert\GreaterThanOrEqual(0, message="Reaction time must be greater than or equal to 0.")
      *
-     * @Assert\LessThanOrEqual(100)
+     * @Assert\LessThanOrEqual(100, message="Reaction time must be less than or equal to 100.")
      */
-    public ?int $reactionTime = null;
+    public ?float $reactionTime = null;
 }

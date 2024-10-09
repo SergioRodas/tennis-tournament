@@ -29,8 +29,8 @@ class PlayerEntity
     #[ORM\Column(type: 'integer', nullable: true)]
     private ?int $speed;
 
-    #[ORM\Column(type: 'integer', nullable: true)]
-    private ?int $reactionTime;
+    #[ORM\Column(type: 'float', nullable: true)]
+    private ?float $reactionTime;
 
     public function __construct(Player $player)
     {
@@ -99,12 +99,12 @@ class PlayerEntity
         $this->speed = $speed;
     }
 
-    public function getReactionTime(): ?int
+    public function getReactionTime(): ?float
     {
         return $this->reactionTime;
     }
 
-    public function setReactionTime(?int $reactionTime): void
+    public function setReactionTime(?float $reactionTime): void
     {
         $this->reactionTime = $reactionTime;
     }

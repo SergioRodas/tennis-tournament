@@ -83,7 +83,14 @@ class SimulateTournamentUseCase
 
             return $baseScore * (1 + $luckFactor) * (1 + $strengthFactor) * (1 + $speedFactor);
         } elseif ('F' === $gender) {
-            $reactionTimeFactor = $player->getReactionTime() / 100;
+            $reactionTime = $player->getReactionTime();
+            if (null === $reactionTime || $reactionTime < 0 || $reactionTime > 100) {
+                throw new \InvalidArgumentException('Invalid reaction time');
+            }
+
+            // Convert reaction time to a factor between 0 and 1
+            // Where 0 (best reaction time) gives 1, and 100 (worst reaction time) gives 0
+            $reactionTimeFactor = (100 - $reactionTime) / 100;
 
             return $baseScore * (1 + $luckFactor) * (1 + $reactionTimeFactor);
         }

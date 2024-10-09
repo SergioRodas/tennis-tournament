@@ -10,10 +10,10 @@ class Player
     private int $skillLevel; // Nivel de habilidad entre 0 y 100
     private ?int $strength = null; // Solo para masculino
     private ?int $speed = null; // Solo para masculino
-    private ?int $reactionTime = null; // Solo para femenino
+    private ?float $reactionTime = null; // Solo para femenino, ahora es float
     private string $gender; // 'M' o 'F'
 
-    public function __construct(string $name, int $skillLevel, string $gender, ?int $strength = null, ?int $speed = null, ?int $reactionTime = null)
+    public function __construct(string $name, int $skillLevel, string $gender, ?int $strength = null, ?int $speed = null, ?float $reactionTime = null)
     {
         $this->name = $name;
         $this->skillLevel = $skillLevel;
@@ -54,7 +54,7 @@ class Player
         return $this->speed;
     }
 
-    public function getReactionTime(): ?int
+    public function getReactionTime(): ?float
     {
         return $this->reactionTime;
     }

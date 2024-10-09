@@ -28,7 +28,7 @@ class CreatePlayerUseCase
         $dto->gender = strtoupper($data['gender'] ?? '');
         $dto->strength = $data['strength'] ?? null;
         $dto->speed = $data['speed'] ?? null;
-        $dto->reactionTime = $data['reactionTime'] ?? null;
+        $dto->reactionTime = isset($data['reactionTime']) ? (float) $data['reactionTime'] : null;
 
         $errors = $this->validator->validate($dto);
         if (count($errors) > 0) {
