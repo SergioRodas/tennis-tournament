@@ -2,7 +2,6 @@
 
 namespace App\Api\Tournament\Infrastructure\Controller;
 
-use App\Api\Tournament\Application\Dto\CreateTournamentRequestDto;
 use App\Api\Tournament\Application\UseCases\CreateTournamentUseCase;
 use App\Api\Tournament\Application\UseCases\GetTournamentUseCase;
 use App\Api\Tournament\Application\UseCases\ListTournamentsUseCase;
@@ -79,6 +78,6 @@ class TournamentController extends AbstractController
         $limit = $request->query->getInt('limit', 20);
         $tournaments = $this->listTournamentsUseCase->execute([], $offset, $limit);
 
-        return new JsonResponse(array_map(fn($tournament) => $tournament->toArray(), $tournaments));
+        return new JsonResponse(array_map(fn ($tournament) => $tournament->toArray(), $tournaments));
     }
 }

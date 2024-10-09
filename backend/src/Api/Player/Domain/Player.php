@@ -28,16 +28,16 @@ class Player
         $this->gender = $gender;
 
         if ('M' === $gender) {
-            if ($strength !== null && ($strength < 0 || $strength > 100)) {
+            if (null !== $strength && ($strength < 0 || $strength > 100)) {
                 throw new \InvalidArgumentException('Strength must be between 0 and 100');
             }
-            if ($speed !== null && ($speed < 0 || $speed > 100)) {
+            if (null !== $speed && ($speed < 0 || $speed > 100)) {
                 throw new \InvalidArgumentException('Speed must be between 0 and 100');
             }
             $this->strength = $strength;
             $this->speed = $speed;
         } elseif ('F' === $gender) {
-            if ($reactionTime !== null && ($reactionTime < 0 || $reactionTime > 100)) {
+            if (null !== $reactionTime && ($reactionTime < 0 || $reactionTime > 100)) {
                 throw new \InvalidArgumentException('Reaction time must be between 0 and 100');
             }
             $this->reactionTime = $reactionTime;
