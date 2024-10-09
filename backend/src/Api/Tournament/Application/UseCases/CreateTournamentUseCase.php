@@ -22,9 +22,19 @@ class CreateTournamentUseCase
 
     public function execute(array $data): Tournament
     {
-        $dto = new CreateTournamentRequestDto(
-            strtoupper($data['gender'] ?? '')
-        );
+        $gender = $data['gender'] ?? null;
+
+        if (null === $gender) {
+            throw new ApiException('This value should not be blank.', Response::HTTP_BAD_REQUEST);
+        }
+
+        $gender = strtoupper($gender);
+
+        if (!in_array($gender, ['M', 'F'])) {
+            throw new ApiException('Invalid gender. Allowed values are \'M\' or \'F\'.', Response::HTTP_BAD_REQUEST);
+        }
+
+        $dto = new CreateTournamentRequestDto($gender);
 
         $errors = $this->validator->validate($dto);
         if (count($errors) > 0) {
@@ -32,16 +42,16 @@ class CreateTournamentUseCase
             foreach ($errors as $error) {
                 $errorMessages[] = $error->getMessage();
             }
-            throw new ApiException(json_encode(['errors' => $errorMessages]), Response::HTTP_BAD_REQUEST);
+            throw new ApiException($errorMessages[0], Response::HTTP_BAD_REQUEST);
         }
 
         try {
-            $tournament = new Tournament($dto->gender);
+            $tournament = new Tournament($gender);
             $this->tournamentRepository->save($tournament);
 
             return $tournament;
         } catch (\Exception $e) {
-            throw new ApiException('Failed to create tournament: ' . $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+            throw new ApiException('Failed to create tournament: '.$e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 }
