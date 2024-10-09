@@ -21,7 +21,7 @@ class CreateMatchupUseCase
         MatchupRepository $matchupRepository,
         PlayerRepository $playerRepository,
         TournamentRepository $tournamentRepository,
-        ValidatorInterface $validator
+        ValidatorInterface $validator,
     ) {
         $this->matchupRepository = $matchupRepository;
         $this->playerRepository = $playerRepository;

@@ -6,7 +6,6 @@ use App\Api\Matchup\Application\UseCases\CreateMatchupUseCase;
 use App\Api\Matchup\Application\UseCases\GetMatchupUseCase;
 use App\Api\Matchup\Application\UseCases\ListMatchupsByTournamentUseCase;
 use App\Api\Matchup\Application\UseCases\UpdateMatchupWinnerUseCase;
-use App\Api\Matchup\Application\Dto\CreateMatchupRequestDto;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -60,7 +59,7 @@ class MatchupController extends AbstractController
     {
         $params = [
             'tournament_id' => $tournamentId,
-            'finished' => $request->query->get('finished')
+            'finished' => $request->query->get('finished'),
         ];
 
         $result = $this->listMatchupsByTournamentUseCase->execute($params);

@@ -5,7 +5,6 @@ namespace App\Api\Player\Infrastructure\Controller;
 use App\Api\Player\Application\UseCases\ListPlayersUseCase;
 use App\Api\Player\Application\UseCases\CreatePlayerUseCase;
 use App\Api\Player\Application\UseCases\GetPlayerUseCase;
-use App\Api\Player\Application\Dto\PlayerFilterRequestDto;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;

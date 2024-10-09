@@ -20,12 +20,12 @@ class ListMatchupsByTournamentUseCase
         $tournamentId = $params['tournament_id'] ?? null;
         $finished = $params['finished'] ?? null;
 
-        if ($tournamentId === null) {
+        if (null === $tournamentId) {
             throw new ApiException('Tournament ID is required', Response::HTTP_BAD_REQUEST);
         }
 
-        if ($finished !== null) {
-            $finished = $finished === 'true' ? true : ($finished === 'false' ? false : null);
+        if (null !== $finished) {
+            $finished = 'true' === $finished ? true : ('false' === $finished ? false : null);
         }
 
         $matchups = $this->matchupRepository->findByTournamentId($tournamentId, $finished);
@@ -36,7 +36,7 @@ class ListMatchupsByTournamentUseCase
 
         return [
             'tournament_id' => $tournamentId,
-            'matchups' => $matchups
+            'matchups' => $matchups,
         ];
     }
 }

@@ -49,9 +49,10 @@ class CreatePlayerUseCase
                 $dto->reactionTime
             );
             $this->repository->save($player);
+
             return $player;
         } catch (\Exception $e) {
-            throw new ApiException('Failed to create player: ' . $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+            throw new ApiException('Failed to create player: '.$e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 }
