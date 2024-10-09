@@ -15,15 +15,31 @@ class Player
 
     public function __construct(string $name, int $skillLevel, string $gender, ?int $strength = null, ?int $speed = null, ?float $reactionTime = null)
     {
+        if (!in_array($gender, ['M', 'F'])) {
+            throw new \InvalidArgumentException('Gender must be either M or F');
+        }
+
+        if ($skillLevel < 0 || $skillLevel > 100) {
+            throw new \InvalidArgumentException('Skill level must be between 0 and 100');
+        }
+
         $this->name = $name;
         $this->skillLevel = $skillLevel;
         $this->gender = $gender;
 
-        // Validar los atributos adicionales según el género
         if ('M' === $gender) {
+            if ($strength !== null && ($strength < 0 || $strength > 100)) {
+                throw new \InvalidArgumentException('Strength must be between 0 and 100');
+            }
+            if ($speed !== null && ($speed < 0 || $speed > 100)) {
+                throw new \InvalidArgumentException('Speed must be between 0 and 100');
+            }
             $this->strength = $strength;
             $this->speed = $speed;
         } elseif ('F' === $gender) {
+            if ($reactionTime !== null && ($reactionTime < 0 || $reactionTime > 100)) {
+                throw new \InvalidArgumentException('Reaction time must be between 0 and 100');
+            }
             $this->reactionTime = $reactionTime;
         }
     }
