@@ -21,6 +21,8 @@ class DoctrinePlayerRepository implements PlayerRepository
         $playerEntity = PlayerMapper::toEntity($player);
         $this->entityManager->persist($playerEntity);
         $this->entityManager->flush();
+
+        $player->setId($playerEntity->getId());
     }
 
     public function findById(int $id): ?Player
