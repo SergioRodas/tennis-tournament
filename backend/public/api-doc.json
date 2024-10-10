@@ -419,16 +419,59 @@
         },
         "/api/tournament/create": {
             "post": {
+                "tags": [
+                    "Tournament"
+                ],
+                "summary": "Create a new tournament",
                 "operationId": "post_create_tournament",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TournamentInput"
+                            }
+                        }
+                    }
+                },
                 "responses": {
-                    "default": {
-                        "description": ""
+                    "201": {
+                        "description": "Tournament created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Tournament created successfully"
+                                        },
+                                        "tournament": {
+                                            "$ref": "#/components/schemas/Tournament"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
                     }
                 }
             }
         },
         "/api/tournament/{id}": {
             "get": {
+                "tags": [
+                    "Tournament"
+                ],
+                "summary": "Get tournament details",
                 "operationId": "get_get_tournament",
                 "parameters": [
                     {
@@ -436,34 +479,147 @@
                         "in": "path",
                         "required": true,
                         "schema": {
-                            "type": "string",
+                            "type": "integer",
                             "pattern": "\\d+"
                         }
                     }
                 ],
                 "responses": {
-                    "default": {
-                        "description": ""
+                    "200": {
+                        "description": "Tournament details retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Tournament"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Tournament not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
                     }
                 }
             }
         },
         "/api/tournament/simulate": {
             "post": {
+                "tags": [
+                    "Tournament"
+                ],
+                "summary": "Simulate a tournament",
                 "operationId": "post_simulate_tournament",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "tournament_id": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
                 "responses": {
-                    "default": {
-                        "description": ""
+                    "200": {
+                        "description": "Tournament simulation successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Tournament simulation successful"
+                                        },
+                                        "winner": {
+                                            "$ref": "#/components/schemas/Player"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Tournament not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
                     }
                 }
             }
         },
         "/api/tournament/list": {
             "get": {
+                "tags": [
+                    "Tournament"
+                ],
+                "summary": "List tournaments",
                 "operationId": "get_list_tournaments",
+                "parameters": [
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "default": 0
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "default": 20
+                        }
+                    }
+                ],
                 "responses": {
-                    "default": {
-                        "description": ""
+                    "200": {
+                        "description": "List of tournaments retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Tournament"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No tournaments found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -593,6 +749,53 @@
                     }
                 },
                 "type": "object"
+            },
+            "TournamentInput": {
+                "required": [
+                    "gender"
+                ],
+                "properties": {
+                    "gender": {
+                        "type": "string",
+                        "enum": [
+                            "M",
+                            "F"
+                        ]
+                    }
+                },
+                "type": "object"
+            },
+            "Tournament": {
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "gender": {
+                        "type": "string",
+                        "enum": [
+                            "M",
+                            "F"
+                        ]
+                    },
+                    "winner": {
+                        "oneOf": [
+                            {
+                                "$ref": "#/components/schemas/Player"
+                            }
+                        ],
+                        "nullable": true
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "finished_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
             }
         }
     },
@@ -604,6 +807,10 @@
         {
             "name": "Matchup",
             "description": "Matchup"
+        },
+        {
+            "name": "Tournament",
+            "description": "Tournament"
         }
     ]
 }

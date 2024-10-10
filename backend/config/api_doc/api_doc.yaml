@@ -253,6 +253,128 @@ nelmio_api_doc:
                 application/json:
                   schema:
                     $ref: "#/components/schemas/ErrorResponse"
+      /api/tournament/create:
+        post:
+          summary: Create a new tournament
+          tags:
+            - Tournament
+          requestBody:
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/TournamentInput"
+          responses:
+            "201":
+              description: Tournament created successfully
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        example: "Tournament created successfully"
+                      tournament:
+                        $ref: "#/components/schemas/Tournament"
+            "400":
+              description: Bad request
+              content:
+                application/json:
+                  schema:
+                    $ref: "#/components/schemas/ErrorResponse"
+      /api/tournament/{id}:
+        get:
+          summary: Get tournament details
+          tags:
+            - Tournament
+          parameters:
+            - name: id
+              in: path
+              required: true
+              schema:
+                type: integer
+          responses:
+            "200":
+              description: Tournament details retrieved successfully
+              content:
+                application/json:
+                  schema:
+                    $ref: "#/components/schemas/Tournament"
+            "404":
+              description: Tournament not found
+              content:
+                application/json:
+                  schema:
+                    $ref: "#/components/schemas/ErrorResponse"
+      /api/tournament/simulate:
+        post:
+          summary: Simulate a tournament
+          tags:
+            - Tournament
+          requestBody:
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    tournament_id:
+                      type: integer
+          responses:
+            "200":
+              description: Tournament simulation successful
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        example: "Tournament simulation successful"
+                      winner:
+                        $ref: "#/components/schemas/Player"
+            "400":
+              description: Bad request
+              content:
+                application/json:
+                  schema:
+                    $ref: "#/components/schemas/ErrorResponse"
+            "404":
+              description: Tournament not found
+              content:
+                application/json:
+                  schema:
+                    $ref: "#/components/schemas/ErrorResponse"
+      /api/tournament/list:
+        get:
+          summary: List tournaments
+          tags:
+            - Tournament
+          parameters:
+            - name: offset
+              in: query
+              schema:
+                type: integer
+                default: 0
+            - name: limit
+              in: query
+              schema:
+                type: integer
+                default: 20
+          responses:
+            "200":
+              description: List of tournaments retrieved successfully
+              content:
+                application/json:
+                  schema:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Tournament"
+            "404":
+              description: No tournaments found
+              content:
+                application/json:
+                  schema:
+                    $ref: "#/components/schemas/ErrorResponse"
     components:
       schemas:
         PlayerInput:
@@ -338,3 +460,29 @@ nelmio_api_doc:
               $ref: "#/components/schemas/Player"
             player2:
               $ref: "#/components/schemas/Player"
+        TournamentInput:
+          type: object
+          required:
+            - gender
+          properties:
+            gender:
+              type: string
+              enum: [M, F]
+        Tournament:
+          type: object
+          properties:
+            id:
+              type: integer
+            gender:
+              type: string
+              enum: [M, F]
+            winner:
+              $ref: "#/components/schemas/Player"
+              nullable: true
+            created_at:
+              type: string
+              format: date-time
+            finished_at:
+              type: string
+              format: date-time
+              nullable: true
