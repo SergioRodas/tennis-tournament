@@ -12,12 +12,19 @@ use App\Shared\Domain\Exception\ApiException;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Validator\Validation;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class CreateMatchupUseCaseTest extends TestCase
 {
+    /** @var MatchupRepository&MockObject */
     private $matchupRepository;
+
+    /** @var PlayerRepository&MockObject */
     private $playerRepository;
+
+    /** @var TournamentRepository&MockObject */
     private $tournamentRepository;
+
     private ValidatorInterface $validator;
     private CreateMatchupUseCase $useCase;
 

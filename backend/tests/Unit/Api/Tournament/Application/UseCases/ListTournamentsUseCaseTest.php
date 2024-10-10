@@ -7,9 +7,11 @@ use App\Api\Tournament\Domain\Tournament;
 use App\Api\Tournament\Domain\TournamentRepository;
 use App\Shared\Domain\Exception\ApiException;
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class ListTournamentsUseCaseTest extends TestCase
 {
+    /** @var TournamentRepository&MockObject */
     private $tournamentRepository;
     private ListTournamentsUseCase $useCase;
 

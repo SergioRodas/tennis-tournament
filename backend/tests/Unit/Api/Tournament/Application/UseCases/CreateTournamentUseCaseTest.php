@@ -9,9 +9,11 @@ use App\Shared\Domain\Exception\ApiException;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Validator\Validation;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class CreateTournamentUseCaseTest extends TestCase
 {
+    /** @var TournamentRepository&MockObject */
     private $tournamentRepository;
     private ValidatorInterface $validator;
     private CreateTournamentUseCase $useCase;

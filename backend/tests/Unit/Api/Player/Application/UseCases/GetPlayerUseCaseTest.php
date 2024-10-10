@@ -7,9 +7,11 @@ use App\Api\Player\Domain\Player;
 use App\Api\Player\Domain\PlayerRepository;
 use App\Shared\Domain\Exception\ApiException;
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class GetPlayerUseCaseTest extends TestCase
 {
+    /** @var PlayerRepository&MockObject */
     private $repository;
     private GetPlayerUseCase $useCase;
 

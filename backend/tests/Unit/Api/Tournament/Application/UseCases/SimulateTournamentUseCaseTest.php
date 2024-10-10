@@ -10,11 +10,16 @@ use App\Api\Tournament\Domain\Tournament;
 use App\Api\Tournament\Domain\TournamentRepository;
 use App\Shared\Domain\Exception\ApiException;
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class SimulateTournamentUseCaseTest extends TestCase
 {
+    /** @var MatchupRepository&MockObject */
     private $matchupRepository;
+
+    /** @var TournamentRepository&MockObject */
     private $tournamentRepository;
+
     private SimulateTournamentUseCase $useCase;
 
     protected function setUp(): void

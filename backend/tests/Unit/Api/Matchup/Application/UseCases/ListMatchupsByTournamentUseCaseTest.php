@@ -9,9 +9,11 @@ use App\Api\Player\Domain\Player;
 use App\Api\Tournament\Domain\Tournament;
 use App\Shared\Domain\Exception\ApiException;
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class ListMatchupsByTournamentUseCaseTest extends TestCase
 {
+    /** @var MatchupRepository&MockObject */
     private $matchupRepository;
     private ListMatchupsByTournamentUseCase $useCase;
 
@@ -26,6 +28,7 @@ class ListMatchupsByTournamentUseCaseTest extends TestCase
         $tournamentId = 1;
         $player1 = new Player('John Doe', 80, 'M', 70, 75);
         $player2 = new Player('Jane Doe', 85, 'F', null, null, 0.5);
+        /** @var Tournament&MockObject */
         $tournament = $this->createMock(Tournament::class);
         $matchup1 = new Matchup($player1, $player2, $tournament);
         $matchup2 = new Matchup($player2, $player1, $tournament);
@@ -50,6 +53,7 @@ class ListMatchupsByTournamentUseCaseTest extends TestCase
         $finished = 'true';
         $player1 = new Player('John Doe', 80, 'M', 70, 75);
         $player2 = new Player('Jane Doe', 85, 'F', null, null, 0.5);
+        /** @var Tournament&MockObject */
         $tournament = $this->createMock(Tournament::class);
         $matchup = new Matchup($player1, $player2, $tournament);
 
