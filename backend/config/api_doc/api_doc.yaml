@@ -112,6 +112,147 @@ nelmio_api_doc:
                 application/json:
                   schema:
                     $ref: "#/components/schemas/ErrorResponse"
+      /api/matchup/create:
+        post:
+          summary: Create a new matchup
+          tags:
+            - Matchup
+          requestBody:
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/MatchupInput"
+          responses:
+            "201":
+              description: Matchup created successfully
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        example: "Matchup created successfully"
+            "400":
+              description: Bad request
+              content:
+                application/json:
+                  schema:
+                    $ref: "#/components/schemas/ErrorResponse"
+            "404":
+              description: Player or tournament not found
+              content:
+                application/json:
+                  schema:
+                    $ref: "#/components/schemas/ErrorResponse"
+      /api/matchup/{id}:
+        get:
+          summary: Get matchup details
+          tags:
+            - Matchup
+          parameters:
+            - name: id
+              in: path
+              required: true
+              schema:
+                type: integer
+          responses:
+            "200":
+              description: Matchup details retrieved successfully
+              content:
+                application/json:
+                  schema:
+                    $ref: "#/components/schemas/Matchup"
+            "404":
+              description: Matchup not found
+              content:
+                application/json:
+                  schema:
+                    $ref: "#/components/schemas/ErrorResponse"
+      /api/matchup/update/{id}/winner:
+        put:
+          summary: Update matchup winner
+          tags:
+            - Matchup
+          parameters:
+            - name: id
+              in: path
+              required: true
+              schema:
+                type: integer
+          requestBody:
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    winner_id:
+                      type: integer
+          responses:
+            "200":
+              description: Winner updated successfully
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        example: "Winner updated successfully"
+            "400":
+              description: Bad request
+              content:
+                application/json:
+                  schema:
+                    $ref: "#/components/schemas/ErrorResponse"
+            "404":
+              description: Matchup or winner not found
+              content:
+                application/json:
+                  schema:
+                    $ref: "#/components/schemas/ErrorResponse"
+      /api/matchup/list/{tournamentId}:
+        get:
+          summary: List matchups by tournament
+          tags:
+            - Matchup
+          parameters:
+            - name: tournamentId
+              in: path
+              required: true
+              schema:
+                type: integer
+            - name: finished
+              in: query
+              schema:
+                type: string
+                enum: [true, false]
+          responses:
+            "200":
+              description: List of matchups retrieved successfully
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      tournament_id:
+                        type: integer
+                      matchups:
+                        type: array
+                        items:
+                          $ref: "#/components/schemas/Matchup"
+            "400":
+              description: Bad request
+              content:
+                application/json:
+                  schema:
+                    $ref: "#/components/schemas/ErrorResponse"
+            "404":
+              description: No matchups found for this tournament
+              content:
+                application/json:
+                  schema:
+                    $ref: "#/components/schemas/ErrorResponse"
     components:
       schemas:
         PlayerInput:
@@ -172,3 +313,28 @@ nelmio_api_doc:
               type: array
               items:
                 type: string
+        MatchupInput:
+          type: object
+          required:
+            - player1_id
+            - player2_id
+            - tournament_id
+          properties:
+            player1_id:
+              type: integer
+            player2_id:
+              type: integer
+            tournament_id:
+              type: integer
+        Matchup:
+          type: object
+          properties:
+            matchup_id:
+              type: integer
+            winner_id:
+              type: integer
+              nullable: true
+            player1:
+              $ref: "#/components/schemas/Player"
+            player2:
+              $ref: "#/components/schemas/Player"
