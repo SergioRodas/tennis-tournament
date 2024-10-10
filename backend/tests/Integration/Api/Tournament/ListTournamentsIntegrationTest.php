@@ -34,7 +34,7 @@ class ListTournamentsIntegrationTest extends IntegrationTestCase
         $this->assertInstanceOf(Tournament::class, $tournaments[1]);
     }
 
-    public function testListTournamentsWithFilters(): void
+    public function testListTournamentsWithGenderFilter(): void
     {
         $tournament1 = new Tournament('M');
         $tournament2 = new Tournament('F');
@@ -45,6 +45,26 @@ class ListTournamentsIntegrationTest extends IntegrationTestCase
 
         $this->assertCount(1, $tournaments);
         $this->assertEquals('M', $tournaments[0]->getGender());
+    }
+
+    public function testListTournamentsWithDateFilter(): void
+    {
+        $tournament1 = new Tournament('M');
+        $this->tournamentRepository->save($tournament1);
+
+        sleep(1);
+
+        $filterDate = new \DateTime();
+
+        sleep(1);
+
+        $tournament2 = new Tournament('F');
+        $this->tournamentRepository->save($tournament2);
+
+        $tournaments = $this->listTournamentsUseCase->execute(['createdAt' => $filterDate], 0, 20, 'createdAt', 'asc');
+
+        $this->assertCount(1, $tournaments);
+        $this->assertEquals('F', $tournaments[0]->getGender());
     }
 
     public function testListTournamentsWithNoResults(): void
