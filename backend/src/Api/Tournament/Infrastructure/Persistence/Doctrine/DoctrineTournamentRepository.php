@@ -82,6 +82,11 @@ class DoctrineTournamentRepository implements TournamentRepository
                 ->setParameter('createdAt', $filters['createdAt']);
         }
 
+        // Ordenación
+        $order = $filters['order'] ?? 'asc';
+        $orderBy = $filters['orderBy'] ?? 'createdAt';
+        $queryBuilder->orderBy('t.'.$orderBy, $order);
+
         return array_map(
             fn ($tournamentEntity) => TournamentMapper::toDomain($tournamentEntity),
             $queryBuilder->getQuery()->getResult()

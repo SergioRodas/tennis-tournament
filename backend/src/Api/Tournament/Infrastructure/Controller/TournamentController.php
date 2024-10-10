@@ -76,7 +76,17 @@ class TournamentController extends AbstractController
     {
         $offset = $request->query->getInt('offset', 0);
         $limit = $request->query->getInt('limit', 20);
-        $tournaments = $this->listTournamentsUseCase->execute([], $offset, $limit);
+        $orderBy = $request->query->get('orderBy', 'createdAt');
+        $order = $request->query->get('order', 'asc');
+
+        $filters = [
+            'gender' => $request->query->get('gender'),
+            'createdAt' => $request->query->get('createdAt') ? new \DateTime($request->query->get('createdAt')) : null,
+        ];
+
+        $filters = array_filter($filters); // Elimina los filtros nulos
+
+        $tournaments = $this->listTournamentsUseCase->execute($filters, $offset, $limit, $orderBy, $order);
 
         return new JsonResponse(array_map(fn ($tournament) => $tournament->toArray(), $tournaments));
     }

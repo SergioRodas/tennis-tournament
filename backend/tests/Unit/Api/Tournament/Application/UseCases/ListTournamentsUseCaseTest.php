@@ -24,6 +24,14 @@ class ListTournamentsUseCaseTest extends TestCase
         $filters = ['gender' => 'M'];
         $offset = 0;
         $limit = 20;
+        $orderBy = 'createdAt';
+        $order = 'asc';
+
+        $expectedFilters = [
+            'gender' => 'M',
+            'orderBy' => 'createdAt',
+            'order' => 'asc',
+        ];
 
         $tournaments = [
             new Tournament('M'),
@@ -32,10 +40,10 @@ class ListTournamentsUseCaseTest extends TestCase
 
         $this->tournamentRepository->expects($this->once())
             ->method('findByFilters')
-            ->with($filters, $offset, $limit)
+            ->with($expectedFilters, $offset, $limit)
             ->willReturn($tournaments);
 
-        $result = $this->useCase->execute($filters, $offset, $limit);
+        $result = $this->useCase->execute($filters, $offset, $limit, $orderBy, $order);
 
         $this->assertCount(2, $result);
         $this->assertContainsOnlyInstancesOf(Tournament::class, $result);
@@ -46,30 +54,70 @@ class ListTournamentsUseCaseTest extends TestCase
         $filters = ['gender' => 'F'];
         $offset = 0;
         $limit = 20;
+        $orderBy = 'createdAt';
+        $order = 'asc';
+
+        $expectedFilters = [
+            'gender' => 'F',
+            'orderBy' => 'createdAt',
+            'order' => 'asc',
+        ];
 
         $this->tournamentRepository->expects($this->once())
             ->method('findByFilters')
-            ->with($filters, $offset, $limit)
+            ->with($expectedFilters, $offset, $limit)
             ->willReturn([]);
 
         $this->expectException(ApiException::class);
         $this->expectExceptionMessage('No tournaments found');
 
-        $this->useCase->execute($filters, $offset, $limit);
+        $this->useCase->execute($filters, $offset, $limit, $orderBy, $order);
     }
 
     public function testListTournamentsWithDefaultParameters()
     {
+        $expectedFilters = [
+            'orderBy' => 'createdAt',
+            'order' => 'asc',
+        ];
+
         $tournaments = [new Tournament('M')];
 
         $this->tournamentRepository->expects($this->once())
             ->method('findByFilters')
-            ->with([], 0, 20)
+            ->with($expectedFilters, 0, 20)
             ->willReturn($tournaments);
 
         $result = $this->useCase->execute();
 
         $this->assertCount(1, $result);
+        $this->assertContainsOnlyInstancesOf(Tournament::class, $result);
+    }
+
+    public function testListTournamentsWithCustomOrderingParameters()
+    {
+        $filters = ['gender' => 'M'];
+        $offset = 0;
+        $limit = 10;
+        $orderBy = 'gender';
+        $order = 'desc';
+
+        $expectedFilters = [
+            'gender' => 'M',
+            'orderBy' => 'gender',
+            'order' => 'desc',
+        ];
+
+        $tournaments = [new Tournament('M'), new Tournament('M')];
+
+        $this->tournamentRepository->expects($this->once())
+            ->method('findByFilters')
+            ->with($expectedFilters, $offset, $limit)
+            ->willReturn($tournaments);
+
+        $result = $this->useCase->execute($filters, $offset, $limit, $orderBy, $order);
+
+        $this->assertCount(2, $result);
         $this->assertContainsOnlyInstancesOf(Tournament::class, $result);
     }
 }

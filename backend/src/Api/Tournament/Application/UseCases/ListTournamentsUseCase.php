@@ -12,8 +12,11 @@ class ListTournamentsUseCase
     {
     }
 
-    public function execute(array $filters = [], int $offset = 0, int $limit = 20): array
+    public function execute(array $filters = [], int $offset = 0, int $limit = 20, string $orderBy = 'createdAt', string $order = 'asc'): array
     {
+        $filters['orderBy'] = $orderBy;
+        $filters['order'] = $order;
+
         $tournaments = $this->tournamentRepository->findByFilters($filters, $offset, $limit);
 
         if (empty($tournaments)) {
