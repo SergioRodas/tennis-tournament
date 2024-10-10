@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Api\Matchup\Application\UseCases;
+namespace Tests\Unit\Api\Matchup\Application\UseCases;
 
 use App\Api\Matchup\Application\UseCases\CreateMatchupUseCase;
 use App\Api\Matchup\Domain\MatchupRepository;

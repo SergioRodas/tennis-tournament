@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Api\Player\Domain;
+namespace Tests\Unit\Api\Player\Domain;
 
 use App\Api\Player\Domain\Player;
 use PHPUnit\Framework\TestCase;

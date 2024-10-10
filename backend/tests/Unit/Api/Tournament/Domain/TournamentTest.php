@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Api\Tournament\Domain;
+namespace Tests\Unit\Api\Tournament\Domain;
 
 use App\Api\Tournament\Domain\Tournament;
 use App\Api\Player\Domain\Player;

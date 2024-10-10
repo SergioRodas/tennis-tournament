@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Api\Matchup\Domain;
+namespace Tests\Unit\Api\Matchup\Domain;
 
 use App\Api\Matchup\Domain\Matchup;
 use App\Api\Player\Domain\Player;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Api\Player\Application\UseCases;
+namespace Tests\Unit\Api\Player\Application\UseCases;
 
 use App\Api\Player\Application\UseCases\ListPlayersUseCase;
 use App\Api\Player\Domain\Player;

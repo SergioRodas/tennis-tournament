@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Api\Tournament\Application\UseCases;
+namespace Tests\Unit\Api\Tournament\Application\UseCases;
 
 use App\Api\Matchup\Domain\Matchup;
 use App\Api\Matchup\Domain\MatchupRepository;
