@@ -1,0 +1,8 @@
+imports:
+  - { resource: "../api_doc/api_doc.yaml" }
+
+nelmio_api_doc:
+  areas:
+    default:
+      path_patterns:
+        - ^/api(?!/doc$)
