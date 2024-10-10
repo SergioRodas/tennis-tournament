@@ -26,6 +26,8 @@ class DoctrineTournamentRepository implements TournamentRepository
         $tournamentEntity = TournamentMapper::toEntity($tournament);
         $this->entityManager->persist($tournamentEntity);
         $this->entityManager->flush();
+
+        $tournament->setId($tournamentEntity->getId());
     }
 
     public function findById(int $id): ?Tournament

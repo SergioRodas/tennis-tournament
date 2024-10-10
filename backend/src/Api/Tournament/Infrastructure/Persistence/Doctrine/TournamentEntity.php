@@ -43,6 +43,11 @@ class TournamentEntity
         return $this->id;
     }
 
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
     public function setWinner(?PlayerEntity $winner): void
     {
         $this->winner = $winner;
