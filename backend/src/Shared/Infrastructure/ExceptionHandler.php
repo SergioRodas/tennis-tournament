@@ -6,6 +6,8 @@ use App\Shared\Domain\Exception\ApiException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
+use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
+use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
 class ExceptionHandler
 {
@@ -19,6 +21,20 @@ class ExceptionHandler
     private function handle(\Throwable $exception): JsonResponse
     {
         if ($exception instanceof ApiException) {
+            return new JsonResponse(
+                ['error' => $exception->getMessage()],
+                $exception->getStatusCode()
+            );
+        }
+
+        if ($exception instanceof ResourceNotFoundException) {
+            return new JsonResponse(
+                ['error' => 'Route not found'],
+                Response::HTTP_NOT_FOUND
+            );
+        }
+
+        if ($exception instanceof HttpExceptionInterface) {
             return new JsonResponse(
                 ['error' => $exception->getMessage()],
                 $exception->getStatusCode()
