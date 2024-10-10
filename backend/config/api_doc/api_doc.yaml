@@ -1,0 +1,174 @@
+nelmio_api_doc:
+  documentation:
+    info:
+      title: API de Torneo de Tenis
+      description: |
+        Esta API simula torneos de tenis con eliminación directa para jugadores masculinos y femeninos.
+
+        Características principales:
+        - Creación y gestión de jugadores con atributos como habilidad, fuerza, velocidad y tiempo de reacción.
+        - Simulación de torneos masculinos y femeninos con reglas específicas para cada género.
+        - Implementación de lógica de enfrentamientos considerando habilidad y factor suerte.
+        - Consulta de resultados de torneos por fecha, género y otros criterios.
+
+        La API está diseñada siguiendo principios de Clean Architecture y buenas prácticas de Programación Orientada a Objetos.
+      version: 1.0.0
+    openapi: "3.0.0"
+    paths:
+      /api/player/create:
+        post:
+          summary: Create a new player
+          tags:
+            - Player
+          requestBody:
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/PlayerInput"
+          responses:
+            "201":
+              description: Player created successfully
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        example: "Player created"
+            "400":
+              description: Bad request
+              content:
+                application/json:
+                  schema:
+                    $ref: "#/components/schemas/ErrorResponse"
+      /api/player/{id}:
+        get:
+          summary: Get player details
+          tags:
+            - Player
+          parameters:
+            - name: id
+              in: path
+              required: true
+              schema:
+                type: integer
+          responses:
+            "200":
+              description: Player details retrieved successfully
+              content:
+                application/json:
+                  schema:
+                    $ref: "#/components/schemas/Player"
+            "404":
+              description: Player not found
+              content:
+                application/json:
+                  schema:
+                    $ref: "#/components/schemas/ErrorResponse"
+      /api/player/list:
+        get:
+          summary: List players
+          tags:
+            - Player
+          parameters:
+            - name: page
+              in: query
+              schema:
+                type: integer
+                default: 1
+            - name: limit
+              in: query
+              schema:
+                type: integer
+                default: 20
+            - name: skill
+              in: query
+              schema:
+                type: string
+            - name: gender
+              in: query
+              schema:
+                type: string
+                enum: [M, F]
+          responses:
+            "200":
+              description: List of players retrieved successfully
+              content:
+                application/json:
+                  schema:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Player"
+            "404":
+              description: No players found
+              content:
+                application/json:
+                  schema:
+                    $ref: "#/components/schemas/ErrorResponse"
+            "400":
+              description: Bad request
+              content:
+                application/json:
+                  schema:
+                    $ref: "#/components/schemas/ErrorResponse"
+    components:
+      schemas:
+        PlayerInput:
+          type: object
+          required:
+            - name
+            - skillLevel
+            - gender
+          properties:
+            name:
+              type: string
+            skillLevel:
+              type: integer
+              minimum: 0
+              maximum: 100
+            gender:
+              type: string
+              enum: [M, F]
+            strength:
+              type: integer
+              minimum: 0
+              maximum: 100
+            speed:
+              type: integer
+              minimum: 0
+              maximum: 100
+            reactionTime:
+              type: number
+              format: float
+              minimum: 0
+              maximum: 100
+        Player:
+          type: object
+          properties:
+            id:
+              type: integer
+            name:
+              type: string
+            skillLevel:
+              type: integer
+            gender:
+              type: string
+              enum: [M, F]
+            strength:
+              type: integer
+              nullable: true
+            speed:
+              type: integer
+              nullable: true
+            reactionTime:
+              type: number
+              format: float
+              nullable: true
+        ErrorResponse:
+          type: object
+          properties:
+            errors:
+              type: array
+              items:
+                type: string

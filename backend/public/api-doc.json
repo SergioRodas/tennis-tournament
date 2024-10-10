@@ -1,0 +1,397 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API de Torneo de Tenis",
+        "description": "Esta API simula torneos de tenis con eliminaci\u00f3n directa para jugadores masculinos y femeninos.\n\nCaracter\u00edsticas principales:\n- Creaci\u00f3n y gesti\u00f3n de jugadores con atributos como habilidad, fuerza, velocidad y tiempo de reacci\u00f3n.\n- Simulaci\u00f3n de torneos masculinos y femeninos con reglas espec\u00edficas para cada g\u00e9nero.\n- Implementaci\u00f3n de l\u00f3gica de enfrentamientos considerando habilidad y factor suerte.\n- Consulta de resultados de torneos por fecha, g\u00e9nero y otros criterios.\n\nLa API est\u00e1 dise\u00f1ada siguiendo principios de Clean Architecture y buenas pr\u00e1cticas de Programaci\u00f3n Orientada a Objetos.\n",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/player/create": {
+            "post": {
+                "tags": [
+                    "Player"
+                ],
+                "summary": "Create a new player",
+                "operationId": "post_create_player",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PlayerInput"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Player created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Player created"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/player/{id}": {
+            "get": {
+                "tags": [
+                    "Player"
+                ],
+                "summary": "Get player details",
+                "operationId": "get_get_player",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "pattern": "\\d+"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Player details retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Player"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Player not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/player/list": {
+            "get": {
+                "tags": [
+                    "Player"
+                ],
+                "summary": "List players",
+                "operationId": "get_list_players",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "default": 1
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "default": 20
+                        }
+                    },
+                    {
+                        "name": "skill",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "gender",
+                        "in": "query",
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "M",
+                                "F"
+                            ]
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of players retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Player"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No players found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/matchup/create": {
+            "post": {
+                "operationId": "post_create_matchup",
+                "responses": {
+                    "default": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/api/matchup/{id}": {
+            "get": {
+                "operationId": "get_get_matchup",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "pattern": "\\d+"
+                        }
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/api/matchup/update/{id}/winner": {
+            "put": {
+                "operationId": "put_update_matchup_winner",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/api/matchup/list/{tournamentId}": {
+            "get": {
+                "operationId": "get_matchups_list_by_tournament",
+                "parameters": [
+                    {
+                        "name": "tournamentId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "pattern": "\\d+"
+                        }
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/api/tournament/create": {
+            "post": {
+                "operationId": "post_create_tournament",
+                "responses": {
+                    "default": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/api/tournament/{id}": {
+            "get": {
+                "operationId": "get_get_tournament",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "pattern": "\\d+"
+                        }
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/api/tournament/simulate": {
+            "post": {
+                "operationId": "post_simulate_tournament",
+                "responses": {
+                    "default": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/api/tournament/list": {
+            "get": {
+                "operationId": "get_list_tournaments",
+                "responses": {
+                    "default": {
+                        "description": ""
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "PlayerInput": {
+                "required": [
+                    "name",
+                    "skillLevel",
+                    "gender"
+                ],
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "skillLevel": {
+                        "type": "integer",
+                        "maximum": 100,
+                        "minimum": 0
+                    },
+                    "gender": {
+                        "type": "string",
+                        "enum": [
+                            "M",
+                            "F"
+                        ]
+                    },
+                    "strength": {
+                        "type": "integer",
+                        "maximum": 100,
+                        "minimum": 0
+                    },
+                    "speed": {
+                        "type": "integer",
+                        "maximum": 100,
+                        "minimum": 0
+                    },
+                    "reactionTime": {
+                        "type": "number",
+                        "format": "float",
+                        "maximum": 100,
+                        "minimum": 0
+                    }
+                },
+                "type": "object"
+            },
+            "Player": {
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "skillLevel": {
+                        "type": "integer"
+                    },
+                    "gender": {
+                        "type": "string",
+                        "enum": [
+                            "M",
+                            "F"
+                        ]
+                    },
+                    "strength": {
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "speed": {
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "reactionTime": {
+                        "type": "number",
+                        "format": "float",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "ErrorResponse": {
+                "properties": {
+                    "errors": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "type": "object"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Player",
+            "description": "Player"
+        }
+    ]
+}
