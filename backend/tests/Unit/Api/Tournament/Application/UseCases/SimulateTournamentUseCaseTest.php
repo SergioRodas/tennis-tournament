@@ -32,7 +32,7 @@ class SimulateTournamentUseCaseTest extends TestCase
     public function testSimulateTournamentSuccess()
     {
         $tournamentId = 1;
-        $tournament = new Tournament('M');
+        $tournament = new Tournament('Test Tournament', 'M');
         $tournament->setId($tournamentId);
 
         $player1 = new Player('Player 1', 80, 'M', 70, 75);
@@ -91,7 +91,7 @@ class SimulateTournamentUseCaseTest extends TestCase
     public function testSimulateTournamentAlreadyFinished()
     {
         $tournamentId = 1;
-        $tournament = new Tournament('M');
+        $tournament = new Tournament('Finished Tournament', 'M');
         $tournament->setId($tournamentId);
         $tournament->setWinner(new Player('Winner', 80, 'M', 70, 75));
 
@@ -109,7 +109,7 @@ class SimulateTournamentUseCaseTest extends TestCase
     public function testSimulateTournamentInvalidNumberOfMatchups()
     {
         $tournamentId = 1;
-        $tournament = new Tournament('M');
+        $tournament = new Tournament('Invalid Tournament', 'M');
         $tournament->setId($tournamentId);
 
         $player1 = new Player('Player 1', 80, 'M', 70, 75);

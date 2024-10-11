@@ -21,11 +21,12 @@ class CreateTournamentIntegrationTest extends IntegrationTestCase
 
     public function testCreateTournament(): void
     {
-        $tournamentData = ['gender' => 'M'];
+        $tournamentData = ['name' => 'Test Tournament', 'gender' => 'M'];
 
         $tournament = $this->createTournamentUseCase->execute($tournamentData);
 
         $this->assertNotNull($tournament->getId());
+        $this->assertEquals('Test Tournament', $tournament->getName());
         $this->assertEquals('M', $tournament->getGender());
     }
 
@@ -34,7 +35,16 @@ class CreateTournamentIntegrationTest extends IntegrationTestCase
         $this->expectException(ApiException::class);
         $this->expectExceptionMessage('Invalid gender. Allowed values are \'M\' or \'F\'.');
 
-        $tournamentData = ['gender' => 'X'];
+        $tournamentData = ['name' => 'Test Tournament', 'gender' => 'X'];
+        $this->createTournamentUseCase->execute($tournamentData);
+    }
+
+    public function testCreateTournamentWithoutName(): void
+    {
+        $this->expectException(ApiException::class);
+        $this->expectExceptionMessage('Name and gender are required.');
+
+        $tournamentData = ['gender' => 'M'];
         $this->createTournamentUseCase->execute($tournamentData);
     }
 }

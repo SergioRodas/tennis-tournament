@@ -22,19 +22,16 @@ class CreateTournamentUseCase
 
     public function execute(array $data): Tournament
     {
+        $name = $data['name'] ?? null;
         $gender = $data['gender'] ?? null;
 
-        if (null === $gender) {
-            throw new ApiException('This value should not be blank.', Response::HTTP_BAD_REQUEST);
+        if (null === $name || null === $gender) {
+            throw new ApiException('Name and gender are required.', Response::HTTP_BAD_REQUEST);
         }
 
         $gender = strtoupper($gender);
 
-        if (!in_array($gender, ['M', 'F'])) {
-            throw new ApiException('Invalid gender. Allowed values are \'M\' or \'F\'.', Response::HTTP_BAD_REQUEST);
-        }
-
-        $dto = new CreateTournamentRequestDto($gender);
+        $dto = new CreateTournamentRequestDto($name, $gender);
 
         $errors = $this->validator->validate($dto);
         if (count($errors) > 0) {
@@ -46,7 +43,7 @@ class CreateTournamentUseCase
         }
 
         try {
-            $tournament = new Tournament($gender);
+            $tournament = new Tournament($name, $gender);
             $this->tournamentRepository->save($tournament);
 
             return $tournament;

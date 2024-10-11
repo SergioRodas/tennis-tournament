@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20241009105434 extends AbstractMigration
+final class Version20241011080812 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -22,7 +22,7 @@ final class Version20241009105434 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('CREATE TABLE matchups (id INT AUTO_INCREMENT NOT NULL, player1_id INT DEFAULT NULL, player2_id INT DEFAULT NULL, winner_id INT DEFAULT NULL, tournament_id INT DEFAULT NULL, INDEX IDX_7B7433FC0990423 (player1_id), INDEX IDX_7B7433FD22CABCD (player2_id), INDEX IDX_7B7433F5DFCD4B8 (winner_id), INDEX IDX_7B7433F33D1A3E7 (tournament_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4');
         $this->addSql('CREATE TABLE players (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(100) NOT NULL, skill_level INT NOT NULL, gender VARCHAR(1) NOT NULL, strength INT DEFAULT NULL, speed INT DEFAULT NULL, reaction_time DOUBLE PRECISION DEFAULT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4');
-        $this->addSql('CREATE TABLE tournaments (id INT AUTO_INCREMENT NOT NULL, gender VARCHAR(255) NOT NULL, created_at DATETIME NOT NULL, finished_at DATETIME DEFAULT NULL, winner_id INT DEFAULT NULL, INDEX IDX_E4BCFAC35DFCD4B8 (winner_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4');
+        $this->addSql('CREATE TABLE tournaments (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) NOT NULL, gender VARCHAR(255) NOT NULL, created_at DATETIME NOT NULL, finished_at DATETIME DEFAULT NULL, winner_id INT DEFAULT NULL, INDEX IDX_E4BCFAC35DFCD4B8 (winner_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4');
         $this->addSql('ALTER TABLE matchups ADD CONSTRAINT FK_7B7433FC0990423 FOREIGN KEY (player1_id) REFERENCES players (id)');
         $this->addSql('ALTER TABLE matchups ADD CONSTRAINT FK_7B7433FD22CABCD FOREIGN KEY (player2_id) REFERENCES players (id)');
         $this->addSql('ALTER TABLE matchups ADD CONSTRAINT FK_7B7433F5DFCD4B8 FOREIGN KEY (winner_id) REFERENCES players (id)');

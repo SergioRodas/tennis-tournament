@@ -22,13 +22,14 @@ class GetTournamentIntegrationTest extends IntegrationTestCase
 
     public function testGetExistingTournament(): void
     {
-        $tournament = new Tournament('M');
+        $tournament = new Tournament('Test Tournament', 'M');
         $this->tournamentRepository->save($tournament);
 
         $retrievedTournament = $this->getTournamentUseCase->execute($tournament->getId());
 
         $this->assertInstanceOf(Tournament::class, $retrievedTournament);
         $this->assertEquals($tournament->getId(), $retrievedTournament->getId());
+        $this->assertEquals('Test Tournament', $retrievedTournament->getName());
         $this->assertEquals('M', $retrievedTournament->getGender());
     }
 

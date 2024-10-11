@@ -31,7 +31,7 @@ class UpdateMatchupWinnerIntegrationTest extends IntegrationTestCase
     {
         $player1 = new Player('John Doe', 80, 'M', 70, 75);
         $player2 = new Player('Jane Doe', 85, 'F', null, null, 0.5);
-        $tournament = new Tournament('M');
+        $tournament = new Tournament('Test Tournament', 'M');
 
         $this->playerRepository->save($player1);
         $this->playerRepository->save($player2);
@@ -62,7 +62,7 @@ class UpdateMatchupWinnerIntegrationTest extends IntegrationTestCase
     {
         $player1 = new Player('John Doe', 80, 'M', 70, 75);
         $player2 = new Player('Jane Doe', 85, 'F', null, null, 0.5);
-        $tournament = new Tournament('M');
+        $tournament = new Tournament('Test Tournament', 'M');
 
         $this->playerRepository->save($player1);
         $this->playerRepository->save($player2);

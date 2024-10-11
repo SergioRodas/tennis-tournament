@@ -3,23 +3,45 @@
 namespace App\Api\Tournament\Domain;
 
 use App\Api\Player\Domain\Player;
+use App\Shared\Domain\Exception\ApiException;
 
 class Tournament
 {
     private int $id;
+    private string $name;
     private ?Player $winner = null;
     private string $gender; // Género del torneo (masculino o femenino)
     private \DateTime $createdAt; // Fecha de creación
     private ?\DateTime $finishedAt = null; // Fecha de finalización
 
-    public function __construct(string $gender)
+    public function __construct(string $name, string $gender)
     {
+        $this->name = $name;
+        $this->setGender($gender);
+        $this->createdAt = new \DateTime();
+    }
+
+    private function setGender(string $gender): void
+    {
+        if (!in_array($gender, ['M', 'F'])) {
+            throw new ApiException('Invalid gender. Allowed values are \'M\' or \'F\'.', 400);
+        }
         $this->gender = $gender;
     }
 
     public function setId(int $id): void
     {
         $this->id = $id;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): void
+    {
+        $this->name = $name;
     }
 
     public function setWinner(Player $winner): void
@@ -74,6 +96,7 @@ class Tournament
     {
         return [
             'id' => $this->id,
+            'name' => $this->name,
             'gender' => $this->gender,
             'winner' => $this->winner ? $this->winner->toArray() : null,
             'created_at' => $this->createdAt->format('Y-m-d H:i:s'),

@@ -33,10 +33,13 @@ class ListMatchupsByTournamentUseCase
         if (empty($matchups)) {
             throw new ApiException('No matchups found for this tournament', Response::HTTP_NOT_FOUND);
         }
+        $matchupsArray = array_map(function ($matchup) {
+            return $matchup->toArray();
+        }, $matchups);
 
         return [
             'tournament_id' => $tournamentId,
-            'matchups' => $matchups,
+            'matchups' => $matchupsArray,
         ];
     }
 }

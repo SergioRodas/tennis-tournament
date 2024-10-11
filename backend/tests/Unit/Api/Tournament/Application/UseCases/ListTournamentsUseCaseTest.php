@@ -36,8 +36,8 @@ class ListTournamentsUseCaseTest extends TestCase
         ];
 
         $tournaments = [
-            new Tournament('M'),
-            new Tournament('M'),
+            new Tournament('Tournament 1', 'M'),
+            new Tournament('Tournament 2', 'M'),
         ];
 
         $this->tournamentRepository->expects($this->once())
@@ -49,6 +49,8 @@ class ListTournamentsUseCaseTest extends TestCase
 
         $this->assertCount(2, $result);
         $this->assertContainsOnlyInstancesOf(Tournament::class, $result);
+        $this->assertEquals('Tournament 1', $result[0]->getName());
+        $this->assertEquals('Tournament 2', $result[1]->getName());
     }
 
     public function testListTournamentsNoResults()
@@ -83,7 +85,7 @@ class ListTournamentsUseCaseTest extends TestCase
             'order' => 'asc',
         ];
 
-        $tournaments = [new Tournament('M')];
+        $tournaments = [new Tournament('Default Tournament', 'M')];
 
         $this->tournamentRepository->expects($this->once())
             ->method('findByFilters')
@@ -94,6 +96,7 @@ class ListTournamentsUseCaseTest extends TestCase
 
         $this->assertCount(1, $result);
         $this->assertContainsOnlyInstancesOf(Tournament::class, $result);
+        $this->assertEquals('Default Tournament', $result[0]->getName());
     }
 
     public function testListTournamentsWithCustomOrderingParameters()
@@ -110,7 +113,10 @@ class ListTournamentsUseCaseTest extends TestCase
             'order' => 'desc',
         ];
 
-        $tournaments = [new Tournament('M'), new Tournament('M')];
+        $tournaments = [
+            new Tournament('Tournament A', 'M'),
+            new Tournament('Tournament B', 'M'),
+        ];
 
         $this->tournamentRepository->expects($this->once())
             ->method('findByFilters')
@@ -121,5 +127,7 @@ class ListTournamentsUseCaseTest extends TestCase
 
         $this->assertCount(2, $result);
         $this->assertContainsOnlyInstancesOf(Tournament::class, $result);
+        $this->assertEquals('Tournament A', $result[0]->getName());
+        $this->assertEquals('Tournament B', $result[1]->getName());
     }
 }

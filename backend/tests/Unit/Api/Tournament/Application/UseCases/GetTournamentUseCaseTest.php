@@ -24,7 +24,7 @@ class GetTournamentUseCaseTest extends TestCase
     public function testGetTournamentSuccess()
     {
         $tournamentId = 1;
-        $tournament = new Tournament('M');
+        $tournament = new Tournament('Test Tournament', 'M');
         $tournament->setId($tournamentId);
 
         $this->tournamentRepository->expects($this->once())
@@ -36,6 +36,7 @@ class GetTournamentUseCaseTest extends TestCase
 
         $this->assertInstanceOf(Tournament::class, $result);
         $this->assertEquals($tournamentId, $result->getId());
+        $this->assertEquals('Test Tournament', $result->getName());
         $this->assertEquals('M', $result->getGender());
     }
 

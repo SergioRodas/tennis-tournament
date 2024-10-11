@@ -12,7 +12,7 @@ class TournamentTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->tournament = new Tournament('M');
+        $this->tournament = new Tournament('Test Tournament', 'M');
         $this->tournament->setId(1);
         $this->tournament->setCreatedAt(new \DateTime('2023-01-01'));
     }
@@ -20,6 +20,7 @@ class TournamentTest extends TestCase
     public function testTournamentCreation()
     {
         $this->assertInstanceOf(Tournament::class, $this->tournament);
+        $this->assertEquals('Test Tournament', $this->tournament->getName());
         $this->assertEquals('M', $this->tournament->getGender());
         $this->assertEquals(1, $this->tournament->getId());
         $this->assertEquals('2023-01-01', $this->tournament->getCreatedAt()->format('Y-m-d'));
@@ -58,6 +59,7 @@ class TournamentTest extends TestCase
 
         $expectedArray = [
             'id' => 1,
+            'name' => 'Test Tournament',
             'gender' => 'M',
             'winner' => $winner->toArray(),
             'created_at' => '2023-01-01 00:00:00',

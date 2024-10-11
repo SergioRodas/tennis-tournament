@@ -27,11 +27,16 @@ class ListMatchupsByTournamentUseCaseTest extends TestCase
     {
         $tournamentId = 1;
         $player1 = new Player('John Doe', 80, 'M', 70, 75);
+        $player1->setId(1);
         $player2 = new Player('Jane Doe', 85, 'F', null, null, 0.5);
-        /** @var Tournament&MockObject */
-        $tournament = $this->createMock(Tournament::class);
+        $player2->setId(2);
+        $tournament = new Tournament('Test Tournament', 'M');
+        $tournament->setId($tournamentId);
+
         $matchup1 = new Matchup($player1, $player2, $tournament);
+        $matchup1->setId(1);
         $matchup2 = new Matchup($player2, $player1, $tournament);
+        $matchup2->setId(2);
 
         $this->matchupRepository->expects($this->once())
             ->method('findByTournamentId')
@@ -52,10 +57,14 @@ class ListMatchupsByTournamentUseCaseTest extends TestCase
         $tournamentId = 1;
         $finished = 'true';
         $player1 = new Player('John Doe', 80, 'M', 70, 75);
+        $player1->setId(1);
         $player2 = new Player('Jane Doe', 85, 'F', null, null, 0.5);
-        /** @var Tournament&MockObject */
-        $tournament = $this->createMock(Tournament::class);
+        $player2->setId(2);
+        $tournament = new Tournament('Test Tournament', 'M');
+        $tournament->setId($tournamentId);
+
         $matchup = new Matchup($player1, $player2, $tournament);
+        $matchup->setId(1);
 
         $this->matchupRepository->expects($this->once())
             ->method('findByTournamentId')

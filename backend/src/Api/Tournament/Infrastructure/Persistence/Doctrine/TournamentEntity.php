@@ -15,6 +15,9 @@ class TournamentEntity
     #[ORM\Column(type: 'integer')]
     private int $id;
 
+    #[ORM\Column(type: 'string')]
+    private string $name;
+
     #[ORM\ManyToMany(targetEntity: PlayerEntity::class)]
 
     #[ORM\ManyToOne(targetEntity: PlayerEntity::class)]
@@ -31,10 +34,11 @@ class TournamentEntity
     private ?\DateTime $finishedAt = null; // Fecha de finalización
 
     #[ORM\OneToMany(mappedBy: 'tournament', targetEntity: MatchupEntity::class, cascade: ['persist', 'remove'])]
-    public function __construct(string $gender)
+    public function __construct(string $name, string $gender)
     {
+        $this->name = $name;
         $this->gender = $gender;
-        $this->createdAt = new \DateTime(); // Fecha de creación se establece al momento de la creación
+        $this->createdAt = new \DateTime();
     }
 
     // Getters y Setters
@@ -46,6 +50,16 @@ class TournamentEntity
     public function setId(int $id): void
     {
         $this->id = $id;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): void
+    {
+        $this->name = $name;
     }
 
     public function setWinner(?PlayerEntity $winner): void

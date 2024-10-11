@@ -29,7 +29,7 @@ class SimulateTournamentIntegrationTest extends IntegrationTestCase
 
     public function testSimulateTournament(): void
     {
-        $tournament = new Tournament('M');
+        $tournament = new Tournament('Test Tournament', 'M');
         $this->tournamentRepository->save($tournament);
 
         $players = $this->createPlayers(4, 'M');
@@ -42,11 +42,12 @@ class SimulateTournamentIntegrationTest extends IntegrationTestCase
 
         $updatedTournament = $this->tournamentRepository->findById($tournament->getId());
         $this->assertEquals($winner->getId(), $updatedTournament->getWinner()->getId());
+        $this->assertEquals('Test Tournament', $updatedTournament->getName());
     }
 
     public function testSimulateTournamentWithInvalidNumberOfMatchups(): void
     {
-        $tournament = new Tournament('M');
+        $tournament = new Tournament('Invalid Tournament', 'M');
         $this->tournamentRepository->save($tournament);
 
         $players = $this->createPlayers(3, 'M');

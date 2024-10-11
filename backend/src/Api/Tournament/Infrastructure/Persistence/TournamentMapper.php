@@ -10,7 +10,7 @@ class TournamentMapper
 {
     public static function toEntity(Tournament $tournament): TournamentEntity
     {
-        $tournamentEntity = new TournamentEntity($tournament->getGender());
+        $tournamentEntity = new TournamentEntity($tournament->getName(), $tournament->getGender());
 
         if ($tournament->getWinner()) {
             $tournamentEntity->setWinner(PlayerMapper::toEntity($tournament->getWinner()));
@@ -21,7 +21,7 @@ class TournamentMapper
 
     public static function toDomain(TournamentEntity $tournamentEntity): Tournament
     {
-        $tournament = new Tournament($tournamentEntity->getGender());
+        $tournament = new Tournament($tournamentEntity->getName(), $tournamentEntity->getGender());
 
         $tournament->setCreatedAt($tournamentEntity->getCreatedAt());
         $tournament->setId($tournamentEntity->getId());

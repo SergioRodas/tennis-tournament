@@ -27,7 +27,7 @@ class CreateTournamentUseCaseTest extends TestCase
 
     public function testCreateTournamentSuccess()
     {
-        $data = ['gender' => 'M'];
+        $data = ['name' => 'Test Tournament', 'gender' => 'M'];
 
         $this->tournamentRepository->expects($this->once())
             ->method('save')
@@ -40,39 +40,47 @@ class CreateTournamentUseCaseTest extends TestCase
         $result = $this->useCase->execute($data);
 
         $this->assertInstanceOf(Tournament::class, $result);
+        $this->assertEquals('Test Tournament', $result->getName());
         $this->assertEquals('M', $result->getGender());
         $this->assertEquals(1, $result->getId());
     }
 
     public function testCreateTournamentInvalidGender()
     {
-        $data = ['gender' => 'X'];
+        $this->expectException(ApiException::class);
+        $this->expectExceptionMessage('Invalid gender. Allowed values are \'M\' or \'F\'.');
 
-        try {
-            $this->useCase->execute($data);
-            $this->fail('Expected exception was not thrown');
-        } catch (\Exception $e) {
-            $this->assertInstanceOf(ApiException::class, $e, 'Unexpected exception: '.get_class($e).' with message: '.$e->getMessage());
-            $this->assertEquals('Invalid gender. Allowed values are \'M\' or \'F\'.', $e->getMessage());
-        }
+        $data = [
+            'name' => 'Test Tournament',
+            'gender' => 'X', // Género inválido
+        ];
+
+        $this->useCase->execute($data);
+    }
+
+    public function testCreateTournamentMissingName()
+    {
+        $data = ['gender' => 'M'];
+
+        $this->expectException(ApiException::class);
+        $this->expectExceptionMessage('Name and gender are required.');
+
+        $this->useCase->execute($data);
     }
 
     public function testCreateTournamentMissingGender()
     {
-        $data = [];
+        $data = ['name' => 'Test Tournament'];
 
-        try {
-            $this->useCase->execute($data);
-            $this->fail('Expected exception was not thrown');
-        } catch (\Exception $e) {
-            $this->assertInstanceOf(ApiException::class, $e, 'Unexpected exception: '.get_class($e).' with message: '.$e->getMessage());
-            $this->assertEquals('This value should not be blank.', $e->getMessage());
-        }
+        $this->expectException(ApiException::class);
+        $this->expectExceptionMessage('Name and gender are required.');
+
+        $this->useCase->execute($data);
     }
 
     public function testCreateTournamentRepositoryException()
     {
-        $data = ['gender' => 'M'];
+        $data = ['name' => 'Test Tournament', 'gender' => 'M'];
 
         $this->tournamentRepository->expects($this->once())
             ->method('save')

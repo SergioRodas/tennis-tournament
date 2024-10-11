@@ -29,7 +29,7 @@ class CreateMatchupIntegrationTest extends IntegrationTestCase
 
     public function testCreateMatchup(): void
     {
-        $tournament = new Tournament('M');
+        $tournament = new Tournament('Test Tournament', 'M');
         $this->tournamentRepository->save($tournament);
 
         $player1 = new Player('John Doe', 80, 'M', 70, 75);
@@ -53,7 +53,7 @@ class CreateMatchupIntegrationTest extends IntegrationTestCase
 
     public function testCreateMatchupWithInvalidPlayers(): void
     {
-        $tournament = new Tournament('M');
+        $tournament = new Tournament('Test Tournament', 'M');
         $this->tournamentRepository->save($tournament);
 
         $matchupData = [

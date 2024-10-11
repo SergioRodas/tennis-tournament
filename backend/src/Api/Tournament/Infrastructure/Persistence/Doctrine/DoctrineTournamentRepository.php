@@ -28,6 +28,7 @@ class DoctrineTournamentRepository implements TournamentRepository
         $this->entityManager->flush();
 
         $tournament->setId($tournamentEntity->getId());
+        $tournament->setCreatedAt($tournamentEntity->getCreatedAt());
     }
 
     public function findById(int $id): ?Tournament
