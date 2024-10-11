@@ -103,7 +103,7 @@ class ListPlayersUseCaseTest extends TestCase
         $this->assertEquals(0, $result['pagination']['totalItems']);
         $this->assertEquals(1, $result['pagination']['currentPage']);
         $this->assertEquals(20, $result['pagination']['itemsPerPage']);
-        $this->assertEquals(0, $result['pagination']['totalPages']);
+        $this->assertEquals(1, $result['pagination']['totalPages']);
     }
 
     public function testListPlayersNoResults()
@@ -120,6 +120,6 @@ class ListPlayersUseCaseTest extends TestCase
         $this->assertEquals(0, $result['pagination']['totalItems']);
         $this->assertEquals(1, $result['pagination']['currentPage']);
         $this->assertEquals(20, $result['pagination']['itemsPerPage']);
-        $this->assertEquals(0, $result['pagination']['totalPages']);
+        $this->assertEquals(1, $result['pagination']['totalPages']);
     }
 }

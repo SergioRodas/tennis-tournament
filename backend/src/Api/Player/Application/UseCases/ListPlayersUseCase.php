@@ -50,7 +50,7 @@ class ListPlayersUseCase
                     'totalItems' => 0,
                     'itemsPerPage' => $dto->limit,
                     'currentPage' => $dto->page,
-                    'totalPages' => 0,
+                    'totalPages' => 1,
                 ],
             ];
         }
