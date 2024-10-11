@@ -31,7 +31,7 @@ Este proyecto simula un torneo de tenis con eliminación directa, donde los juga
 
 2. Instalar dependencias del proyecto:
    ```
-   cd frontend && npm install && cd ..
+   cd frontnpm install
    ```
 
 3. Configurar y construir los contenedores Docker:
@@ -82,5 +82,4 @@ Para información más detallada sobre componentes específicos del proyecto, co
 Este proyecto utiliza [Conventional Commits](https://www.conventionalcommits.org/) para el formato de los mensajes de commit, lo que facilita la generación automática de changelogs y la comprensión del historial del proyecto.
 
 ## Licencia
-
-[Incluir información de licencia aquí]
+Este proyecto está bajo la licencia MIT.
