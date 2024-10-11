@@ -1,50 +1,108 @@
-# React + TypeScript + Vite
+# Tennis Tournament Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Descripción
 
-Currently, two official plugins are available:
+Este es el frontend para la aplicación Tennis Tournament. Está construido con React y proporciona una interfaz de usuario interactiva para manejar jugadores, torneos y enfrentamientos de tenis.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Tecnologías Utilizadas
 
-## Expanding the ESLint configuration
+- React
+- TypeScript
+- Vite
+- React Router
+- Axios (para llamadas a la API)
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Estructura del Proyecto
 
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+```
+frontend/src/
+├── api/
+│   ├── matchup/
+│   ├── player/
+│   └── tournament/
+├── assets/
+├── components/
+│   ├── matchup/
+│   ├── player/
+│   ├── tournament/
+│   └── ui/
+├── config/
+├── domain/
+│   ├── matchup/
+│   ├── player/
+│   └── tournament/
+├── lib/
+├── pages/
+└── presentation/
+    ├── hooks/
+    └── store/
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+## Configuración
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+1. Instala las dependencias:
+   ```
+   npm install
+   ```
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+2. Crea un archivo `.env` en la raíz del proyecto frontend con el siguiente contenido:
+   ```
+   REACT_APP_SERVER_ENDPOINT=http://localhost:8000
+   ```
+   Ajusta la URL según la configuración de tu backend.
+
+## Ejecución
+
+Para ejecutar el servidor de desarrollo:
 ```
+npm run dev
+```
+
+Para construir el proyecto para producción:
+```
+npm run build
+```
+
+## Componentes Principales
+
+- `Layout.tsx`: Componente principal que envuelve toda la aplicación.
+- `PlayerList.tsx`: Muestra la lista de jugadores.
+- `TournamentList.tsx`: Muestra la lista de torneos.
+- `MatchupList.tsx`: Muestra la lista de enfrentamientos.
+
+## Páginas
+
+- `HomePage.tsx`: Página de inicio.
+- `PlayerPage.tsx`: Página para gestionar jugadores.
+- `TournamentPage.tsx`: Página para gestionar torneos.
+- `MatchupPage.tsx`: Página para ver enfrentamientos.
+
+## API
+
+La comunicación con el backend se maneja a través de los archivos en la carpeta `api/`:
+
+- `playerApi.ts`
+- `tournamentApi.ts`
+- `matchupApi.ts`
+
+## Hooks Personalizados
+
+Se han creado varios hooks personalizados para manejar la lógica de negocio:
+
+- `usePlayers.ts`
+- `useTournaments.ts`
+- `useMatchups.ts`
+
+## Contribuir
+
+Si deseas contribuir al proyecto, por favor:
+
+1. Haz un fork del repositorio
+2. Crea una nueva rama (`git checkout -b feature/AmazingFeature`)
+3. Haz commit de tus cambios (`git commit -m 'Add some AmazingFeature'`)
+4. Haz push a la rama (`git push origin feature/AmazingFeature`)
+5. Abre un Pull Request
+
+## Licencia
+
+Este proyecto está bajo la licencia MIT. Consulta el archivo `LICENSE` para más detalles.
