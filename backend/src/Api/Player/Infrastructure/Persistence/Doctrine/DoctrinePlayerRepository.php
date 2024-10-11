@@ -4,6 +4,7 @@ namespace App\Api\Player\Infrastructure\Persistence\Doctrine;
 
 use App\Api\Player\Domain\Player;
 use App\Api\Player\Domain\PlayerRepository;
+use App\Api\Tournament\Infrastructure\Persistence\Doctrine\TournamentEntity;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Api\Player\Infrastructure\Persistence\PlayerMapper;
 
@@ -35,8 +36,10 @@ class DoctrinePlayerRepository implements PlayerRepository
     public function findAllWithFilters(array $filters, int $page, int $limit): array
     {
         $queryBuilder = $this->entityManager->createQueryBuilder();
-        $queryBuilder->select('p')
+        $queryBuilder->select('p', 'COUNT(t.id) as tournamentsWon')
             ->from(PlayerEntity::class, 'p')
+            ->leftJoin(TournamentEntity::class, 't', 'WITH', 't.winner = p')
+            ->groupBy('p.id')
             ->setFirstResult(($page - 1) * $limit)
             ->setMaxResults($limit);
 
@@ -53,7 +56,14 @@ class DoctrinePlayerRepository implements PlayerRepository
 
         $queryBuilder->orderBy('p.id', 'ASC');
 
-        return $queryBuilder->getQuery()->getResult();
+        $result = $queryBuilder->getQuery()->getResult();
+
+        return array_map(function ($row) {
+            $player = PlayerMapper::toDomain($row[0]);
+            $player->setTournamentsWon($row['tournamentsWon']);
+
+            return $player;
+        }, $result);
     }
 
     public function countAllWithFilters(array $filters): int

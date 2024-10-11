@@ -4,6 +4,9 @@ namespace App\Api\Player\Infrastructure\Persistence\Doctrine;
 
 use App\Api\Player\Domain\Player;
 use Doctrine\ORM\Mapping as ORM;
+use App\Api\Tournament\Infrastructure\Persistence\Doctrine\TournamentEntity;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'players')]
@@ -32,6 +35,9 @@ class PlayerEntity
     #[ORM\Column(type: 'float', nullable: true)]
     private ?float $reactionTime;
 
+    #[ORM\OneToMany(mappedBy: 'winner', targetEntity: TournamentEntity::class)]
+    private Collection $tournamentsWon;
+
     public function __construct(Player $player)
     {
         $this->name = $player->getName();
@@ -40,6 +46,7 @@ class PlayerEntity
         $this->strength = $player->getStrength();
         $this->speed = $player->getSpeed();
         $this->reactionTime = $player->getReactionTime();
+        $this->tournamentsWon = new ArrayCollection();
     }
 
     // Getters y setters...
@@ -107,6 +114,11 @@ class PlayerEntity
     public function setReactionTime(?float $reactionTime): void
     {
         $this->reactionTime = $reactionTime;
+    }
+
+    public function getTournamentsWon(): Collection
+    {
+        return $this->tournamentsWon;
     }
 
     public function toArray(): array

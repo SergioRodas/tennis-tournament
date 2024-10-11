@@ -43,6 +43,7 @@ class PlayerTest extends TestCase
     {
         $player = new Player('Array Test', 90, 'F', null, null, 0.7);
         $player->setId(2);
+        $player->setTournamentsWon(3);
 
         $expectedArray = [
             'id' => 2,
@@ -52,6 +53,7 @@ class PlayerTest extends TestCase
             'strength' => null,
             'speed' => null,
             'reactionTime' => 0.7,
+            'tournamentsWon' => 3,
         ];
 
         $this->assertEquals($expectedArray, $player->toArray());

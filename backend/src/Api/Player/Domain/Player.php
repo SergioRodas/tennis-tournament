@@ -12,6 +12,7 @@ class Player
     private ?int $speed = null; // Solo para masculino
     private ?float $reactionTime = null; // Solo para femenino, ahora es float
     private string $gender; // 'M' o 'F'
+    private int $tournamentsWon = 0;
 
     public function __construct(string $name, int $skillLevel, string $gender, ?int $strength = null, ?int $speed = null, ?float $reactionTime = null)
     {
@@ -85,6 +86,16 @@ class Player
         $this->id = $id;
     }
 
+    public function setTournamentsWon(int $tournamentsWon): void
+    {
+        $this->tournamentsWon = $tournamentsWon;
+    }
+
+    public function getTournamentsWon(): int
+    {
+        return $this->tournamentsWon;
+    }
+
     public function toArray(): array
     {
         return [
@@ -95,6 +106,7 @@ class Player
             'strength' => $this->strength,
             'speed' => $this->speed,
             'reactionTime' => $this->reactionTime,
+            'tournamentsWon' => $this->tournamentsWon,
         ];
     }
 }
