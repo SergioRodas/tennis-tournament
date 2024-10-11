@@ -1,5 +1,9 @@
 # Tennis Tournament Backend
 
+## Documentación general del proyecto
+
+Para una visión general del proyecto, incluyendo la configuración inicial y la ejecución de tests, por favor consulte el [README principal](../README.md) en la raíz del proyecto.
+
 ## Descripción
 
 Este es el backend para la aplicación Tennis Tournament. Está construido con Symfony y proporciona una API RESTful para manejar jugadores, torneos y enfrentamientos de tenis.

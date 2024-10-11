@@ -4,6 +4,10 @@
 
 Este es el frontend para la aplicación Tennis Tournament. Está construido con React y proporciona una interfaz de usuario interactiva para manejar jugadores, torneos y enfrentamientos de tenis.
 
+## Documentación general del proyecto
+
+Para una visión general del proyecto, incluyendo la configuración inicial y la ejecución de tests, por favor consulte el [README principal](../README.md) en la raíz del proyecto.
+
 ## Tecnologías Utilizadas
 
 - React
