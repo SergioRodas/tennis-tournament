@@ -8,9 +8,6 @@
 /var/
 /vendor/
 
-###< symfony/framework-bundle ###
-.env
-
 # PHP CS Fixer
 /.php-cs-fixer.cache
 
