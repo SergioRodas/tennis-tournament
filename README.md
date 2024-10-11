@@ -25,8 +25,8 @@ Este proyecto simula un torneo de tenis con eliminación directa, donde los juga
 
 1. Clonar el repositorio:
    ```
-   git clone [URL_DEL_REPOSITORIO]
-   cd [NOMBRE_DEL_DIRECTORIO]
+   git clone https://github.com/SergioRodas/tennis-tournament.git
+   cd tennis-tournament
    ```
 
 2. Instalar dependencias del proyecto:
