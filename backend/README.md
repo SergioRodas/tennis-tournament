@@ -48,6 +48,7 @@ backend/src/
     ├── Domain/
     │   └── Exception/
     └── Infrastructure/
+```
 
 ## Configuración
 
