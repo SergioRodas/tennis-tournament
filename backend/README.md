@@ -15,6 +15,7 @@ Este es el backend para la aplicación Tennis Tournament. Está construido con S
 - Doctrine ORM
 - MySQL
 - Docker
+- Nelmio API Doc Bundle (para documentación de la API)
 
 ## Estructura del Proyecto
 
