@@ -23,19 +23,21 @@ class ListPlayersIntegrationTest extends IntegrationTestCase
     {
         $this->createSamplePlayers();
 
-        $players = $this->listPlayersUseCase->execute([]);
+        $result = $this->listPlayersUseCase->execute([]);
 
-        $this->assertCount(3, $players);
+        $this->assertArrayHasKey('players', $result);
+        $this->assertArrayHasKey('pagination', $result);
+        $this->assertCount(3, $result['players']);
     }
 
     public function testListPlayersWithGenderFilter(): void
     {
         $this->createSamplePlayers();
 
-        $players = $this->listPlayersUseCase->execute(['gender' => 'M']);
+        $result = $this->listPlayersUseCase->execute(['gender' => 'M']);
 
-        $this->assertCount(2, $players);
-        foreach ($players as $player) {
+        $this->assertCount(2, $result['players']);
+        foreach ($result['players'] as $player) {
             $this->assertEquals('M', $player->getGender());
         }
     }
@@ -44,19 +46,21 @@ class ListPlayersIntegrationTest extends IntegrationTestCase
     {
         $this->createSamplePlayers();
 
-        $players = $this->listPlayersUseCase->execute(['skill' => 80]);
+        $result = $this->listPlayersUseCase->execute(['skill' => 80]);
 
-        $this->assertCount(1, $players);
-        $this->assertEquals(80, $players[0]->getSkillLevel());
+        $this->assertCount(1, $result['players']);
+        $this->assertEquals(80, $result['players'][0]->getSkillLevel());
     }
 
     public function testListPlayersWithPagination(): void
     {
         $this->createSamplePlayers();
 
-        $players = $this->listPlayersUseCase->execute(['page' => 1, 'limit' => 2]);
+        $result = $this->listPlayersUseCase->execute(['page' => 1, 'limit' => 2]);
 
-        $this->assertCount(2, $players);
+        $this->assertCount(2, $result['players']);
+        $this->assertEquals(2, $result['pagination']['itemsPerPage']);
+        $this->assertEquals(1, $result['pagination']['currentPage']);
     }
 
     private function createSamplePlayers(): void

@@ -59,12 +59,15 @@ class PlayerController extends AbstractController
     {
         $queryParams = $request->query->all();
 
-        $players = $this->listPlayersUseCase->execute($queryParams);
+        $result = $this->listPlayersUseCase->execute($queryParams);
 
         $playersArray = array_map(function ($player) {
             return $player->toArray();
-        }, $players);
+        }, $result['players']);
 
-        return new JsonResponse($playersArray);
+        return new JsonResponse([
+            'players' => $playersArray,
+            'pagination' => $result['pagination'],
+        ]);
     }
 }

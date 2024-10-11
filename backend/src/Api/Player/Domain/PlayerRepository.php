@@ -9,4 +9,6 @@ interface PlayerRepository
     public function findById(int $id): ?Player;
 
     public function findAllWithFilters(array $filters, int $page, int $limit): array;
+
+    public function countAllWithFilters(array $filters): int;
 }

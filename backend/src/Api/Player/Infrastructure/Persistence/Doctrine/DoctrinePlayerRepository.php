@@ -55,4 +55,24 @@ class DoctrinePlayerRepository implements PlayerRepository
 
         return $queryBuilder->getQuery()->getResult();
     }
+
+    public function countAllWithFilters(array $filters): int
+    {
+        $queryBuilder = $this->entityManager->createQueryBuilder();
+        $queryBuilder->select('COUNT(p.id)')
+            ->from(PlayerEntity::class, 'p');
+
+        // Aplicar los filtros opcionales de manera segura
+        if (!empty($filters['skill'])) {
+            $queryBuilder->andWhere('p.skillLevel = :skill')
+                ->setParameter('skill', $filters['skill']);
+        }
+
+        if (!empty($filters['gender']) && in_array($filters['gender'], ['M', 'F'])) {
+            $queryBuilder->andWhere('p.gender = :gender')
+                ->setParameter('gender', $filters['gender']);
+        }
+
+        return (int) $queryBuilder->getQuery()->getSingleScalarResult();
+    }
 }

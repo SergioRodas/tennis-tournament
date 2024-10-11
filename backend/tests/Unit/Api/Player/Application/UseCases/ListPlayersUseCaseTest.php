@@ -5,7 +5,6 @@ namespace Tests\Unit\Api\Player\Application\UseCases;
 use App\Api\Player\Application\UseCases\ListPlayersUseCase;
 use App\Api\Player\Domain\Player;
 use App\Api\Player\Domain\PlayerRepository;
-use App\Shared\Domain\Exception\ApiException;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Validator\Validation;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -36,17 +35,27 @@ class ListPlayersUseCaseTest extends TestCase
         $this->repository->expects($this->once())
             ->method('findAllWithFilters')
             ->with(
-                $this->equalTo(['skill' => null, 'gender' => '']),
+                $this->equalTo(['skill' => null, 'gender' => null]),
                 $this->equalTo(1),
                 $this->equalTo(20)
             )
             ->willReturn($players);
 
+        $this->repository->expects($this->once())
+            ->method('countAllWithFilters')
+            ->willReturn(2);
+
         $result = $this->useCase->execute([]);
 
-        $this->assertCount(2, $result);
-        $this->assertInstanceOf(Player::class, $result[0]);
-        $this->assertInstanceOf(Player::class, $result[1]);
+        $this->assertArrayHasKey('players', $result);
+        $this->assertArrayHasKey('pagination', $result);
+        $this->assertCount(2, $result['players']);
+        $this->assertInstanceOf(Player::class, $result['players'][0]);
+        $this->assertInstanceOf(Player::class, $result['players'][1]);
+        $this->assertEquals(2, $result['pagination']['totalItems']);
+        $this->assertEquals(20, $result['pagination']['itemsPerPage']);
+        $this->assertEquals(1, $result['pagination']['currentPage']);
+        $this->assertEquals(1, $result['pagination']['totalPages']);
     }
 
     public function testListPlayersWithFilters()
@@ -64,6 +73,10 @@ class ListPlayersUseCaseTest extends TestCase
             )
             ->willReturn($players);
 
+        $this->repository->expects($this->once())
+            ->method('countAllWithFilters')
+            ->willReturn(1);
+
         $result = $this->useCase->execute([
             'page' => 2,
             'limit' => 10,
@@ -71,20 +84,26 @@ class ListPlayersUseCaseTest extends TestCase
             'gender' => 'm',
         ]);
 
-        $this->assertCount(1, $result);
-        $this->assertInstanceOf(Player::class, $result[0]);
-        $this->assertEquals('M', $result[0]->getGender());
-        $this->assertEquals(80, $result[0]->getSkillLevel());
+        $this->assertCount(1, $result['players']);
+        $this->assertInstanceOf(Player::class, $result['players'][0]);
+        $this->assertEquals('M', $result['players'][0]->getGender());
+        $this->assertEquals(80, $result['players'][0]->getSkillLevel());
     }
 
     public function testListPlayersWithInvalidParams()
     {
-        $this->expectException(ApiException::class);
-
-        $this->useCase->execute([
+        $result = $this->useCase->execute([
             'page' => 0,  // Invalid page number
             'limit' => 1000,  // Exceeds maximum limit
         ]);
+
+        $this->assertArrayHasKey('players', $result);
+        $this->assertArrayHasKey('pagination', $result);
+        $this->assertEmpty($result['players']);
+        $this->assertEquals(0, $result['pagination']['totalItems']);
+        $this->assertEquals(1, $result['pagination']['currentPage']);
+        $this->assertEquals(20, $result['pagination']['itemsPerPage']);
+        $this->assertEquals(0, $result['pagination']['totalPages']);
     }
 
     public function testListPlayersNoResults()
@@ -93,9 +112,14 @@ class ListPlayersUseCaseTest extends TestCase
             ->method('findAllWithFilters')
             ->willReturn([]);
 
-        $this->expectException(ApiException::class);
-        $this->expectExceptionMessage('No players found');
+        $result = $this->useCase->execute([]);
 
-        $this->useCase->execute([]);
+        $this->assertArrayHasKey('players', $result);
+        $this->assertArrayHasKey('pagination', $result);
+        $this->assertEmpty($result['players']);
+        $this->assertEquals(0, $result['pagination']['totalItems']);
+        $this->assertEquals(1, $result['pagination']['currentPage']);
+        $this->assertEquals(20, $result['pagination']['itemsPerPage']);
+        $this->assertEquals(0, $result['pagination']['totalPages']);
     }
 }

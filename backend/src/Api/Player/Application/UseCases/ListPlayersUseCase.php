@@ -22,8 +22,8 @@ class ListPlayersUseCase
     public function execute(array $queryParams): array
     {
         $dto = new PlayerFilterRequestDto();
-        $dto->page = $queryParams['page'] ?? 1;
-        $dto->limit = $queryParams['limit'] ?? 20;
+        $dto->page = max(1, $queryParams['page'] ?? 1); // Ensure page is at least 1
+        $dto->limit = min(20, $queryParams['limit'] ?? 50); // Apply maximum limit of 50
         $dto->skill = $queryParams['skill'] ?? null;
         $dto->gender = $queryParams['gender'] ?? null;
 
@@ -44,9 +44,28 @@ class ListPlayersUseCase
         $players = $this->playerRepository->findAllWithFilters($filters, $dto->page, $dto->limit);
 
         if (empty($players)) {
-            throw new ApiException('No players found', Response::HTTP_NOT_FOUND);
+            return [
+                'players' => [],
+                'pagination' => [
+                    'totalItems' => 0,
+                    'itemsPerPage' => $dto->limit,
+                    'currentPage' => $dto->page,
+                    'totalPages' => 0,
+                ],
+            ];
         }
 
-        return $players;
+        $totalPlayers = $this->playerRepository->countAllWithFilters($filters);
+        $totalPages = ceil($totalPlayers / $dto->limit);
+
+        return [
+            'players' => $players,
+            'pagination' => [
+                'totalItems' => (int) $totalPlayers,
+                'itemsPerPage' => (int) $dto->limit,
+                'currentPage' => (int) $dto->page,
+                'totalPages' => (int) $totalPages,
+            ],
+        ];
     }
 }
