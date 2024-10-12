@@ -31,7 +31,7 @@ Este proyecto simula un torneo de tenis con eliminación directa, donde los juga
 
 2. Instalar dependencias del proyecto:
    ```
-   cd frontnpm install
+   cd frontend && npm install && cd ..
    ```
 
 3. Configurar y construir los contenedores Docker:
