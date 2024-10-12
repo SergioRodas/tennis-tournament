@@ -44,7 +44,7 @@ Este proyecto simula un torneo de tenis con eliminación directa, donde los juga
    docker-compose exec backend php bin/console doctrine:migrations:migrate -n
    ```
 
-5. Configurar la base de datos de prueba:
+5. Configurar la base de datos de prueba (necesario para los tests de integración):
    ```
    docker-compose exec backend php bin/console doctrine:database:drop --force --env=test
    docker-compose exec backend php bin/console doctrine:database:create --env=test
