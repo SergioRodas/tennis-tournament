@@ -8,6 +8,14 @@ Para una visión general del proyecto, incluyendo la configuración inicial y la
 
 Este es el backend para la aplicación Tennis Tournament. Está construido con Symfony y proporciona una API RESTful para manejar jugadores, torneos y enfrentamientos de tenis.
 
+## Despliegue
+
+El backend está desplegado en Render y es accesible en:
+[https://tennis-tournament-zo6j.onrender.com/](https://tennis-tournament-zo6j.onrender.com/)
+
+La documentación de la API está disponible en:
+[https://tennis-tournament-zo6j.onrender.com/api/doc](https://tennis-tournament-zo6j.onrender.com/api/doc)
+
 ## Tecnologías Utilizadas
 
 - PHP 8.1+

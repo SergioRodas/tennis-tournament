@@ -83,3 +83,9 @@ Este proyecto utiliza [Conventional Commits](https://www.conventionalcommits.org
 
 ## Licencia
 Este proyecto está bajo la licencia MIT.
+
+## Sitios Desplegados
+
+- Frontend: [https://tennis-tournament-nine.vercel.app/](https://tennis-tournament-nine.vercel.app/)
+- Backend: [https://tennis-tournament-zo6j.onrender.com/](https://tennis-tournament-zo6j.onrender.com/)
+- Documentación de la API: [https://tennis-tournament-zo6j.onrender.com/api/doc](https://tennis-tournament-zo6j.onrender.com/api/doc)
