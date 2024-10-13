@@ -497,8 +497,11 @@ nelmio_api_doc:
         TournamentInput:
           type: object
           required:
+            - name
             - gender
           properties:
+            name:
+              type: string
             gender:
               type: string
               enum: [M, F]
@@ -507,6 +510,8 @@ nelmio_api_doc:
           properties:
             id:
               type: integer
+            name:
+              type: string
             gender:
               type: string
               enum: [M, F]
